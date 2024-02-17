@@ -26,10 +26,7 @@ const UserSchema = new Schema(
       default:
         "https://media.istockphoto.com/vectors/man-face-icon-in-medical-mask-male-person-in-surgical-mask-people-vector-id1222731059",
     },
-    role: {
-      type: String,
-      default: "user",
-    },
+
     active: {
       type: Boolean,
       default: false,

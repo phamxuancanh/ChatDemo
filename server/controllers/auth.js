@@ -6,7 +6,7 @@ const {
     signAccessToken,
     signRefreshToken,
     verifyRefreshToken,
-} = require("../helpers/jwt.service");
+} = require("../helpers/jwt_service");
 const signIn = async (req, res, next) => {
     try {
         const { phone, password } = req.body;
