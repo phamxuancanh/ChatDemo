@@ -17,9 +17,11 @@ const sendSmsOTP = async (phone) => {
         const verification = await client.verify
             .services(serviceId)
             .verifications.create({ to: `+84${phone}`, channel: "sms" });
+            console.log(verification+"verify");
         if (verification) return true;
         else return false;
     } catch (error) {
+        console.log(error);
         return false;
     }
     return true;

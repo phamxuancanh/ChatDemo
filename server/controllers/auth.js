@@ -39,7 +39,6 @@ const signIn = async (req, res, next) => {
 };
 const signUp = async (req, res, next) => {
     try {
-        console.log("AAAAAAAAA");
         const { name, phone, password } = req.value.body;
         // Check if there is a user with the same user
         const foundUser = await User.findOne({ phone });
@@ -187,6 +186,7 @@ const sendOTP = async (req, res, next) => {
             });
         }
     } catch (error) {
+        console.log(error);
         next(error);
     }
 };

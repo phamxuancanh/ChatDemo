@@ -68,6 +68,7 @@ const verifyRefreshToken = (refreshToken) => {
             "secret",
             (err, payload) => {
                 if (err) {
+                    console.log(err);
                     return reject(err);
                 }
                 client.get(payload.userId, (err, reply) => {
@@ -75,6 +76,7 @@ const verifyRefreshToken = (refreshToken) => {
                     if (refreshToken === reply) {
                         return resolve(payload);
                     }
+                    console.log("k co token");
                     return reject(err);
                 });
             }

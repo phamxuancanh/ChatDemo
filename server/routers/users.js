@@ -64,7 +64,7 @@ router
         UserController.updateUser
     )
     .delete(validateParam(schemas.idSchema, "userID"), UserController.deleteUser);
-
+//OK !!
 router
     .route("/")
     .get(verifyAccessToken, UserController.getAllUser)
