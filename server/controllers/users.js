@@ -32,7 +32,7 @@ const newUser = async (req, res, next) => {
 const getUser = async (req, res, next) => {
     try {
         const id = req.params.userID;
-        console.log("Hien nEk", id);
+        console.log("NEK", id);
         const users = await User.findOne({ _id: id });
         res.status(200).json({ users });
     } catch (error) {
@@ -105,7 +105,7 @@ const requestAddFriend = async (req, res, next) => {
         };
 
         if (friend.receiver.socketId) {
-            console.log("cO ONLINE NHA " + friend.receiver.name);
+            console.log("Có online nha " + friend.receiver.name);
             req.io
                 .to(friend.receiver.socketId)
                 .emit("friend-request-status", foundUser);
@@ -155,12 +155,29 @@ const acceptFriend = async (req, res, next) => {
                 .json({ error: { message: "Người dùng chưa đăng nhập!!!" } });
         }
         const friendsRequest = await UserRequest.findById(req.body.requestId);
+
+        const currentUser = await User.findById(req.payload.userId);
+
+        if(currentUser._id.equals(friendsRequest.sender)) {
+            return res 
+                .status(400)
+                .json({ error: "Bản thân không thể tự chấp nhận lời mời kết bạn" });
+        }
+        console.log(currentUser._id);
+        console.log(friendsRequest.receiver);
+        if(!currentUser._id.equals(friendsRequest.receiver)) {
+            return res 
+                .status(400)
+                .json({ error: "Người đang đăng nhập không phải người được gửi" });
+        }
         if (!friendsRequest) {
             return res
                 .status(404)
                 .json({ error: "Yêu cầu đã được chấp nhận hoặc chưa được gửi" });
         }
         const sender = await User.findById(friendsRequest.sender);
+        // console.log(sender.friends);
+
         if (sender.friends.includes(friendsRequest.receiver)) {
             return res
                 .status(400)
@@ -168,7 +185,7 @@ const acceptFriend = async (req, res, next) => {
         }
         sender.friends.push(req.payload.userId);
         await sender.save();
-        const currentUser = await User.findById(req.payload.userId);
+        // const currentUser = await User.findById(req.payload.userId);
         if (currentUser.friends.includes(friendsRequest.sender)) {
             return res.status(400).json({ error: "đã kết bạn rồi" });
         }
@@ -197,7 +214,7 @@ const acceptFriend = async (req, res, next) => {
         }
         const room = await Rooms.create({ users: listUsers, group: false });
         console.log(sender);
-        //Vinh
+
         if (sender.socketId) {
             req.io
                 .to(sender.socketId)
@@ -215,6 +232,8 @@ const acceptFriend = async (req, res, next) => {
 const declineFriend = async (req, res, next) => {
     try {
         const foundUser = await User.findOne({ _id: req.payload.userId });
+        const currentUser = await User.findById(req.payload.userId);
+
         if (!foundUser) {
             return res
                 .status(403)
@@ -223,20 +242,26 @@ const declineFriend = async (req, res, next) => {
         const friendsRequest = await UserRequest.findById(
             req.body.requestId
         ).populate("sender");
+        
+        console.log(friendsRequest);    
         if (!friendsRequest) {
             return res
                 .status(404)
                 .json({ error: "Yêu cầu đã bị từ chối hoặc chưa được gửi" });
         }
+        if(!(currentUser._id.equals(friendsRequest.sender) || currentUser._id.equals(friendsRequest.receiver))) {
+            return res 
+                .status(400)
+                .json({ error: "Không thể xóa lời mời kết bạn của người khác" });
+        }
         await UserRequest.deleteOne({ _id: req.body.requestId });
-        //Vinh
         console.log(friendsRequest);
         if (friendsRequest.sender.socketId) {
             req.io
                 .to(friendsRequest.sender.socketId)
                 .emit("friend-request-decline-status", friendsRequest.sender);
         }
-        res.status(200).json({ message: "Yêu cầu kết bạn bị từ chối" });
+        res.status(200).json({ message: "Yêu cầu kết bạn đã bị từ chối" });
     } catch (error) {
         next(error);
     }
@@ -284,13 +309,14 @@ const GetUserByName = async (req, res, next) => {
                 .json({ error: { message: "Người dùng chưa đăng nhập!!!" } });
         }
         const { name } = req.body;
-        console.log("hahadddddddddddddddddddddddđ");
         console.log(name);
-        const users = await User.find({
-            $text: {
-                $search: name,
-            }
-        });
+        // const users = await User.find({
+        //     $text: {
+        //         $search: name,
+        //     }
+        // });
+        const users = await User.find({ name: { $regex: name, $options: 'i' } });
+
         if (users) {
             return res.status(200).json({ users });
         }
@@ -298,10 +324,12 @@ const GetUserByName = async (req, res, next) => {
             .status(403)
             .json({ error: { message: "Không tìm thấy người có tên này." } });
     } catch (error) {
+        console.log(error);
         next(error);
     }
 };
 const checkFriend = async (req, res, next) => {
+    console.log("Hien ne");
     try {
         const foundUser = await User.findOne({ _id: req.payload.userId });
         if (!foundUser) {
@@ -369,33 +397,61 @@ const blockFriend = async (req, res, next) => {
     }
 };
 
+// const GetFriendByName = async (req, res, next) => {
+//     try {
+//         const foundUser = await User.findOne({ _id: req.payload.userId });
+//         if (!foundUser) {
+//             return res
+//                 .status(403)
+//                 .json({ error: { message: "Người dùng chưa đăng nhập!!!" } });
+//         }
+//         const { name } = req.body;
+//         console.log("====================================");
+//         console.log(name);
+//         const users = await User.find({
+//             $text: {
+//                 $search: name,
+//             },
+//             friends: { $in: [foundUser._id] },
+//         });
+//         if (users) {
+//             return res.status(200).json({ users });
+//         }
+//         return res
+//             .status(403)
+//             .json({ error: { message: "Không tìm thấy người bạn có tên này." } });
+//     } catch (error) {
+//         next(error);
+//     }
+// };
 const GetFriendByName = async (req, res, next) => {
     try {
         const foundUser = await User.findOne({ _id: req.payload.userId });
         if (!foundUser) {
-            return res
-                .status(403)
-                .json({ error: { message: "Người dùng chưa đăng nhập!!!" } });
+            return res.status(403).json({ error: { message: "Người dùng chưa đăng nhập!!!" } });
         }
+
         const { name } = req.body;
         console.log("====================================");
         console.log(name);
-        const users = await User.find({
-            $text: {
-                $search: name,
-            },
-            friends: { $in: [foundUser._id] },
+
+        // Tìm tất cả các người dùng có tên gần đúng với `name`
+        const users = await User.find({ 
+            name: { $regex: new RegExp(name, "i") }, // Sử dụng biểu thức chính quy để tìm kiếm không phân biệt chữ hoa chữ thường
+            _id: { $ne: foundUser._id }, // Loại trừ người dùng hiện tại khỏi kết quả
+            friends: foundUser._id // Chỉ lấy những người dùng là bạn của người dùng hiện tại
         });
-        if (users) {
+
+        if (users.length > 0) {
             return res.status(200).json({ users });
+        } else {
+            return res.status(404).json({ error: { message: "Không tìm thấy người bạn có tên này." } });
         }
-        return res
-            .status(403)
-            .json({ error: { message: "Không tìm thấy người bạn có tên này." } });
     } catch (error) {
         next(error);
     }
 };
+
 
 const GetFriendByPhone = async (req, res, next) => {
     try {
@@ -415,7 +471,7 @@ const GetFriendByPhone = async (req, res, next) => {
         }
         return res
             .status(400)
-            .json({ error: { message: "Không tìm thấy người bạn có tên này." } });
+            .json({ error: { message: "Không tìm thấy người bạn có phone này." } });
     } catch (error) {
         next(error);
     }

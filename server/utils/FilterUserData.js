@@ -1,7 +1,7 @@
 module.exports = (user) => {
     return {
         id: user._id,
-        username: user.username,
+        username: user.name,
         phone: user.phone,
         avatar: user.avatar,
         active: user.active,

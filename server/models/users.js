@@ -10,6 +10,7 @@ const UserSchema = new Schema(
       require: true,
       min: 3,
       max: 20,
+      index: true,
     },
     phone: {
       type: String,

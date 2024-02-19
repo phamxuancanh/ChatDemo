@@ -64,11 +64,11 @@ const schemas = {
     //     owner: Joi.string().regex(/^[0-9a-fA-F]{24}$/),
     // }),
 
-    // idSchema: Joi.object().keys({
-    //     param: Joi.string()
-    //         .regex(/^[0-9a-fA-F]{24}$/)
-    //         .required(),
-    // }),
+    idSchema: Joi.object().keys({
+        param: Joi.string()
+            .regex(/^[0-9a-fA-F]{24}$/)
+            .required(),
+    }),
 
     // newDeckSchema: Joi.object().keys({
     //     name: Joi.string().min(6).required(),
