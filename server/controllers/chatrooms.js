@@ -15,6 +15,10 @@ const addRoom = async (req, res, next) => {
         const name = req.body.NameGroup;
         const ListUsers = req.body.ListUsers;
         let users = [];
+        const check = await Rooms.findOne({
+            name,
+            group: true,
+        });
         for (let i = 0; i < ListUsers.length; i++) {
             users.push(mongoose.Types.ObjectId(ListUsers[i]));
         }
