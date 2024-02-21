@@ -32,6 +32,7 @@ const upload = multer({ storage, limits: { fileSize: 20000000 } }).single(
 
 const addMessage = async (req, res, next) => {
     try {
+        console.log(req.body);
         const foundUser = await User.findOne({ _id: req.payload.userId });
         if (!foundUser) {
             return res
@@ -157,38 +158,38 @@ const getMessage = async (req, res, next) => {
     }
 };
 // RTC
-const callVideo = async (req, res, next) => {
-    try {
-        const foundUser = await User.findOne({ _id: req.payload.userId });
-        if (!foundUser) {
-            return res
-                .status(403)
-                .json({ error: { message: "Người dùng chưa đăng nhập!!!" } });
-        }
-        const { RoomId } = req.body;
+// const callVideo = async (req, res, next) => {
+//     try {
+//         const foundUser = await User.findOne({ _id: req.payload.userId });
+//         if (!foundUser) {
+//             return res
+//                 .status(403)
+//                 .json({ error: { message: "Người dùng chưa đăng nhập!!!" } });
+//         }
+//         const { RoomId } = req.body;
 
-        const room = await Rooms.findOne({ _id: RoomId });
-        const nameMessUserId = room.users.find(
-            (m) => m != foundUser._id.toString()
-        );
-        const userAnother = await User.findOne({ _id: nameMessUserId });
-        // -------------------------------------------
-        req.io.to(foundUser.socketId).emit("me", foundUser.socketId, userAnother);
+//         const room = await Rooms.findOne({ _id: RoomId });
+//         const nameMessUserId = room.users.find(
+//             (m) => m != foundUser._id.toString()
+//         );
+//         const userAnother = await User.findOne({ _id: nameMessUserId });
+//         // -------------------------------------------
+//         req.io.to(foundUser.socketId).emit("me", foundUser.socketId, userAnother);
 
-        // -------------------------------------------
-        //  console.log(userAnother + " user ngừ khác");
-        //  console.log(nameMessUserId + " Userid ngừ khác");
-        // console.log(nameMessUserId + "ID NGỪ KHÁC" + foundUser._id);
-        if (room.active == true) {
-            console.log("Đã zô tới đây " + foundUser.socketId);
-            return res.status(200).json({});
-        }
+//         // -------------------------------------------
+//         //  console.log(userAnother + " user ngừ khec");
+//         //  console.log(nameMessUserId + " Userid ngừ khec");
+//         // console.log(nameMessUserId + "ID NGỪ KHEC" + foundUser._id);
+//         if (room.active == true) {
+//             console.log("Đã zô tới đây " + foundUser.socketId);
+//             return res.status(200).json({});
+//         }
 
-        res.status(401).json({ message: "Không thể gọi video" });
-    } catch (err) {
-        next(err);
-    }
-};
+//         res.status(401).json({ message: "Không thể gọi video" });
+//     } catch (err) {
+//         next(err);
+//     }
+// };
 
 const getNewMessage = async (req, res, next) => {
     try {
@@ -201,12 +202,10 @@ const getNewMessage = async (req, res, next) => {
         const listRoom = await Rooms.find({
             users: { $in: [foundUser._id] },
         });
-
+        console.log(listRoom.length)
         let listMessage = []
         let listRoomSort = []
         let listNoMessage = []
-
-
         for (let i = 0; i < listRoom.length; i++) {
             const messages = await Message.find({
                 RoomId: listRoom[i]._id,
@@ -217,15 +216,15 @@ const getNewMessage = async (req, res, next) => {
             } else {
                 listNoMessage.push(listRoom[i])
             }
-
         }
         listMessage.sort((a, b) => (a.createdAt > b.createdAt) ? -1 : 1)
 
         for (let i = 0; i < listMessage.length; i++) {
             const room = await Rooms.findOne({
-                _id: mongoose.Types.ObjectId(listMessage[i].RoomId)
+                _id: new mongoose.Types.ObjectId(listMessage[i].RoomId)
             })
             listRoomSort.push(room)
+
         }
         listRoomSort = listRoomSort.concat(listNoMessage)
         res.status(200).json(listRoomSort);
@@ -240,6 +239,6 @@ module.exports = {
     cancelMessage,
     readMessage,
     getMessage,
-    callVideo,
+//    callVideo,
     getNewMessage
 };

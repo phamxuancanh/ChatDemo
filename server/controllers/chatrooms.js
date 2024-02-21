@@ -17,7 +17,7 @@ const addRoom = async (req, res, next) => {
         let users = [];
 
         for (let i = 0; i < ListUsers.length; i++) {
-            users.push(mongoose.Types.ObjectId(ListUsers[i]));
+            users.push(new mongoose.Types.ObjectId(ListUsers[i]));
         }
         users.push(foundUser._id);
         const newRoom = new Rooms({
