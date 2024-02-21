@@ -15,10 +15,7 @@ const addRoom = async (req, res, next) => {
         const name = req.body.NameGroup;
         const ListUsers = req.body.ListUsers;
         let users = [];
-        const check = await Rooms.findOne({
-            name,
-            group: true,
-        });
+
         for (let i = 0; i < ListUsers.length; i++) {
             users.push(mongoose.Types.ObjectId(ListUsers[i]));
         }
@@ -45,20 +42,6 @@ const addRoom = async (req, res, next) => {
     }
 };
 const getRoomAfterLogin = async (req, res, next) => {
-    // try {
-    //   const foundUser = await User.findOne({ _id: req.payload.userId });
-    //   if (!foundUser) {
-    //     return res
-    //       .status(403)
-    //       .json({ error: { message: "Người dùng chưa đăng nhập!!!" } });
-    //   }
-    //   const Room = await Rooms.find({
-    //     users: { $in: [foundUser._id] },
-    //   });
-    //   res.status(200).json(Room);
-    // } catch (err) {
-    //   next(err);
-    // }
     try {
         const foundUser = await User.findOne({ _id: req.payload.userId });
         if (!foundUser) {
@@ -213,7 +196,7 @@ const deleteRoom = async (req, res, next) => {
 
         const Room = await Rooms.deleteOne({
             _id: roomId,
-            // roomMaster: foundUser._id,
+            roomMaster: foundUser._id,
         });
         //socket cho tự bản thân mình xóa nhóm
         req.io.to(foundUser.socketId).emit("delete-group-by-me", roomSocket);
@@ -303,10 +286,9 @@ const addMember = async (req, res, next) => {
     try {
         const id = req.body.id;
         const list_user_id = req.body.list_user_id;
-
         let list_user = [];
         for (let i = 0; i < list_user_id.length; i++) {
-            list_user.push(mongoose.Types.ObjectId(list_user_id[i]));
+            list_user.push(new mongoose.Types.ObjectId(list_user_id[i]));
         }
         const foundUser = await User.findOne({ _id: req.payload.userId });
         if (!foundUser) {
@@ -337,13 +319,11 @@ const addMember = async (req, res, next) => {
             }
         );
         const room = await Rooms.findOne({ _id: id });
-
         //socket của người khác khi được ai đó thêm vào group
         list_user_id.forEach(async (userSelected) => {
             const foundUserSelected = await User.findOne({ _id: userSelected });
             req.io.to(foundUserSelected.socketId).emit("add-member", room);
         });
-
         //socket cho những người trong group khi ai đó được thêm vào
         const arrayUserInRooom = room.users;
         arrayUserInRooom.forEach(async (user) => {
@@ -352,15 +332,15 @@ const addMember = async (req, res, next) => {
                 .to(foundMemberInRoom.socketId)
                 .emit("add-member-other-people-in-room", room);
         });
-
         res.status(200).json({ message: "Thêm Thành viên thành công", room });
     } catch (err) {
+        console.log(err);
         next(err);
     }
 };
 const removeMember = async (req, res, next) => {
     try {
-        const { id, userWantRemove } = req.body;
+        const { id,  userWantRemove    } = req.body;
         const foundUser = await User.findOne({ _id: req.payload.userId });
         if (!foundUser) {
             return res
@@ -374,7 +354,7 @@ const removeMember = async (req, res, next) => {
             },
             {
                 $pull: {
-                    users: { $in: [mongoose.Types.ObjectId(userWantRemove)] },
+                    users: { $in: [new mongoose.Types.ObjectId(userWantRemove)] },
                 },
             }
         );
@@ -397,6 +377,7 @@ const removeMember = async (req, res, next) => {
 
         res.status(200).json({ message: "Thoát khỏi Room thành công", room });
     } catch (err) {
+        console.log(err);
         next(err);
     }
 };
@@ -414,7 +395,7 @@ const swapRoomMaster = async (req, res, next) => {
                 _id: id,
             },
             {
-                roomMaster: mongoose.Types.ObjectId(userWantSwap),
+                roomMaster: new mongoose.Types.ObjectId(userWantSwap),
             }
         );
         const room = await Rooms.findOne({ _id: id });
@@ -444,10 +425,9 @@ const getRoomByNameRoom = async (req, res, next) => {
                 .json({ error: { message: "Người dùng chưa đăng nhập!!!" } });
         }
         const { name } = req.body;
+        const regex = new RegExp(name, "i"); // "i" để tìm kiếm không phân biệt chữ hoa chữ thường
         const room = await Rooms.find({
-            $text: {
-                $search: name,
-            },
+            name: regex, // thay thế $text bằng $regex
             group: true,
         });
         res.status(200).json(room);
@@ -455,12 +435,10 @@ const getRoomByNameRoom = async (req, res, next) => {
         next(err);
     }
 };
+
 //
 const getRoomByNameFriend = async (req, res, next) => {
     try {
-        console.log("====================================");
-        console.log("dong316");
-        console.log("====================================");
         const foundUser = await User.findOne({ _id: req.payload.userId });
         if (!foundUser) {
             return res
@@ -468,14 +446,14 @@ const getRoomByNameFriend = async (req, res, next) => {
                 .json({ error: { message: "Người dùng chưa đăng nhập!!!" } });
         }
         const { name } = req.body;
+        // Tìm kiếm người dùng theo tên mà không sử dụng chỉ mục
         const users = await User.find({
-            $text: {
-                $search: name,
-            },
+            name: { $regex: new RegExp(name, "i") }, // Tìm kiếm không phân biệt hoa thường
             friends: { $in: [foundUser._id] },
         });
         let room = [];
         for (let i = 0; i < users.length; i++) {
+            // Tìm kiếm phòng dựa trên người dùng và không sử dụng chỉ mục
             const foundRoom = await Rooms.findOne({
                 users: { $all: [foundUser._id, users[i]._id] },
                 group: false,
@@ -487,6 +465,7 @@ const getRoomByNameFriend = async (req, res, next) => {
         next(err);
     }
 };
+
 
 module.exports = {
     addRoom,
