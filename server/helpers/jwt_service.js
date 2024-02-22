@@ -8,7 +8,7 @@ const signAccessToken = async (userId) => {
         };
         const secret = process.env.ACCESS_TOKEN_SECRET;
         const options = {
-            expiresIn: "5h",
+            expiresIn: "30m",
         };
         JWT.sign(payload, secret, options, (err, token) => {
             if (err) reject(err);
@@ -21,9 +21,6 @@ const verifyAccessToken = (req, res, next) => {
     if (!req.headers["authorization"]) {
         return res.status(403).json({ error: { message: "Unauthorized!!!!" } });
     }
-    // const authHeader = Authorization;
-    // const bearerToken = authHeader.split(' ');
-    // const token = bearerToken[1];
     JWT.verify(Authorization, process.env.ACCESS_TOKEN_SECRET, (err, payload) => {
         if (err) {
             if (err.name === "JsonWebTokenError") {
@@ -44,7 +41,7 @@ const signRefreshToken = async (userId) => {
         };
         const secret = "secret";
         const options = {
-            expiresIn: "1y",
+            expiresIn: "5h",
         };
         JWT.sign(payload, secret, options, (err, token) => {
             if (err) reject(err);
