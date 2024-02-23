@@ -2,24 +2,24 @@ import axiosClient from "./axiosClient";
 
 const adminAPI = {
     getAllUser() {
-        const url = "/users/";
+        const url = "api/users/";
         return axiosClient.get(url);
     },
     addNewUser(newUser) {
         console.log(newUser);
-        const url = "/users/";
+        const url = "api/users/";
         return axiosClient.post(url, newUser.newUser);
     },
     GetUserByPhone(phone) {
-        const url = "/users/GetUserByPhone";
+        const url = "api/users/GetUserByPhone";
         return axiosClient.post(url, phone);
     },
     GetUserByName(name) {
-        const url = "/users/GetUserByName";
+        const url = "api/users/GetUserByName";
         return axiosClient.post(url, name);
     },
     deleteUser(userId) {
-        const url = "/users/" +userId.userId;
+        const url = "api/users/" +userId.userId;
         return axiosClient.delete(url);
     },
 };

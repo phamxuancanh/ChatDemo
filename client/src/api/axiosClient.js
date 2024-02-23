@@ -12,7 +12,7 @@ const axiosClient = axios.create({
 axiosClient.refreshToken = async () => {
   const refreshToken = Cookies.get("refreshToken");
   return (
-    await axiosClient.post("/auth/refreshToken", { refreshToken: refreshToken })
+    await axiosClient.post("api/auths/refreshToken", { refreshToken: refreshToken })
   ).data;
 };
 
@@ -40,27 +40,27 @@ axiosClient.interceptors.response.use(
   async function (error) {
     // console.log("ERROR REPONSE: ", error.response);
     const { config, status, data } = error.response;
-    if (config.url === "/auth/checkPhone" && status === 403) {
+    if (config.url === "api/auths/checkPhone" && status === 403) {
       const error = data.error;
       const message = error.message;
       return Promise.reject(message);
     }
-    if (config.url === "/auth/verifyOtpSignUp" && status === 400) {
+    if (config.url === "api/auths/verifyOtpSignUp" && status === 400) {
       const error = data.error;
       console.log(error);
       const message = error.message;
       return Promise.reject(message);
     }
-    if (config.url === "/auth/signin" && status === 403) {
+    if (config.url === "api/auths/signin" && status === 403) {
       const error = data.error;
       return Promise.reject(error);
     }
-    if (config.url === "/users/GetUserByPhone" && status === 403) {
+    if (config.url === "api/users/GetUserByPhone" && status === 403) {
       const error = data.error.message;
       return Promise.reject(error);
     }
     if (
-      (config.url === "/auth/ChangePassword" && status === 403) ||
+      (config.url === "api/auths/ChangePassword" && status === 403) ||
       status === 400
     ) {
       const error = data.error?.message;
@@ -71,7 +71,7 @@ axiosClient.interceptors.response.use(
         console.log("trường hợp Token hết hạn");
 
         const { accessToken, refToken } = await axiosClient.refreshToken();
-        console.log(accessToken + "dong 63" + refToken);
+        console.log(accessToken + "LINE" + refToken);
         if (accessToken) {
           console.log("đã lấy lại accessToken thành công");
           config.headers["authorization"] = accessToken;

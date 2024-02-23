@@ -2,8 +2,7 @@ import axiosClient from "./axiosClient";
 
 const logoutAPI = {
     logout(refreshtoken) {
-        // console.log(refreshtoken.refreshToken);
-    const url = "/auth/logout";
+    const url = "api/auths/logout";
     return axiosClient.post(url, {refreshToken: refreshtoken.refreshToken});
   }
 };

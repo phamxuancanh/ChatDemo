@@ -2,27 +2,27 @@ import axiosClient from "./axiosClient";
 
 const messageAPI = {
   GetMessage(message) {
-    const url = "/messages/" + message.idRoom;
+    const url = "api/messages/" + message.idRoom;
     return axiosClient.get(url);
   },
   AddMessage(message) {
-    const url = "/messages/addMessage";
+    const url = "api/messages/addMessage";
     return axiosClient.post(url, message.message);
   },
   CallVideo(roomId) {
-    const url = "/messages/callVideo";
+    const url = "api/messages/callVideo";
     return axiosClient.post(url, { RoomId: roomId.idRoom });
   },
   cancelMessage(messageId) {
-    const url = "/messages/cancelMessage/" + messageId.messageId;
+    const url = "api/messages/cancelMessage/" + messageId.messageId;
     return axiosClient.put(url);
   },
   readMessage(messageId) {
-    const url = "/messages/readMessage/" + messageId.messageId;
+    const url = "api/messages/readMessage/" + messageId.messageId;
     return axiosClient.put(url);
   },
   getNewMessage() {
-    const url = "/messages/getNewMessage/a";
+    const url = "api/messages/getNewMessage/a";
     return axiosClient.get(url);
   },
 };
