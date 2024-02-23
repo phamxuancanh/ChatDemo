@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
 import HomePage from "./pages/HomePage";
 import { Fragment } from "react";
 import { authentication } from "./components/Home/authentication";
@@ -10,7 +11,7 @@ function App(ctx) {
         <Routes>
         <Route path="/" element={<Navigate to="/home" />} />
           <Route path="/signin" element={<SignIn />} />
-          {/* <Route path="/signup" element={<SignUp />} /> */}
+          <Route path="/signup" element={<SignUp />} />
           <Route path="/home" element={<PrivateRoute />} />
           {/* <Route path="/admin" element={<Admin />} />
           <Route path="/forgotpassword" element={<ForgotPassWord />} />

@@ -15,7 +15,11 @@ const SignInForm = () => {
   const [phoneIsValid, setPhoneIsValid] = useState(false);
   const [passIsValid, setPassIsValid] = useState(false);
   const [isError, setIsError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
   const phoneHandler = (event) => {
     const patte = /^(0|84)[0-9]{9}$/;
     if (patte.test(event.target.value)) {
@@ -23,7 +27,7 @@ const SignInForm = () => {
       setPhoneIsValid(true);
       setIsError("");
     } else if (event.target.value === "") {
-      setIsError("Không được rỗng");  
+      setIsError("Không được rỗng");
     } else {
       setIsError(
         "Số điện thoại phải bắt đầu bằng 0 hoặc 84 và bao gồm 9 chữ số phía sau!!"
@@ -95,17 +99,33 @@ const SignInForm = () => {
             <span>
               <i className="fas fa-lock"></i>
             </span>
+
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'}
+              id="inputPassword"
               placeholder="Mật khẩu"
+              
               onChange={passHandler}
             />
           </div>
+
+          <div className={classes.inputShow}>
+          <label htmlFor="inputPassword">
+            <span>
+            <input 
+              type="checkbox"
+              onChange={togglePasswordVisibility}
+              checked={showPassword}
+            />
+            <p>Hiện mật khẩu</p>
+            </span>
+          </label>
+          </div>
+          
           <span className={classes.error}>{isError}</span> <br />
           <button
-            className={`${classes["btn-first"]} ${
-              phoneIsValid && passIsValid ? classes["activc-isvalid"] : ""
-            } `}
+            className={`${classes["btn-first"]} ${phoneIsValid && passIsValid ? classes["activc-isvalid"] : ""
+              } `}
           >
             Đăng nhập với mật khẩu
           </button>
