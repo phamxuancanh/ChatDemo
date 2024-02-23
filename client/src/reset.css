@@ -1,0 +1,22 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+input, button, textarea {
+  border: none;
+  outline: none;
+  background: none;
+}
+/*# sourceMappingURL=reset.css.map */

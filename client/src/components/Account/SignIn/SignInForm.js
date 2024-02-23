@@ -7,7 +7,6 @@ import { useDispatch } from "react-redux";
 import { signin } from "../../Home/userSlice";
 import { unwrapResult } from "@reduxjs/toolkit";
 
-
 const SignInForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -24,7 +23,7 @@ const SignInForm = () => {
       setPhoneIsValid(true);
       setIsError("");
     } else if (event.target.value === "") {
-      setIsError("Không được rỗng");
+      setIsError("Không được rỗng");  
     } else {
       setIsError(
         "Số điện thoại phải bắt đầu bằng 0 hoặc 84 và bao gồm 9 chữ số phía sau!!"
@@ -34,7 +33,7 @@ const SignInForm = () => {
   };
 
   const passHandler = (event) => {
-    const patte = /[a-zA-Z0-9]{6,}$/;
+    const patte = /[a-zA-Z0-9!@#$%^&*()_+{}|[\]\\;:'",.<>?`~]{6,}$/;
     if (patte.test(event.target.value)) {
       setEnteredPass(event.target.value);
       setPassIsValid(true);
@@ -104,8 +103,9 @@ const SignInForm = () => {
           </div>
           <span className={classes.error}>{isError}</span> <br />
           <button
-            className={`${classes["btn-first"]} ${phoneIsValid && passIsValid ? classes["activc-isvalid"] : ""
-              } `}
+            className={`${classes["btn-first"]} ${
+              phoneIsValid && passIsValid ? classes["activc-isvalid"] : ""
+            } `}
           >
             Đăng nhập với mật khẩu
           </button>
