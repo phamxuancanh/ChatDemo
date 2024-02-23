@@ -1,8 +1,21 @@
 import React from "react";
 import { Fragment } from "react";
-import OwlCarousel from "react-owl-carousel";
+import OwlCarousel from "react-owl-carousel2";
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import io from "socket.io-client";
+import { toast } from "react-toastify";
+
+import classes from "./home.module.scss";
+import img1 from "../../assets/owl_1.png";
+import img2 from "../../assets/owl_2.jpg";
+import img3 from "../../assets/owl_3.jpg";
+import img4 from "../../assets/owl_4.png";
+import img5 from "../../assets/owl_5.jpg";
+import img6 from "../../assets/owl_6.jpg";
+
+toast.configure();
 
 const Home = (props) => {
   const [activeAnswer, setAciveAnswer] = useState(false);
@@ -21,12 +34,161 @@ const Home = (props) => {
   const [isListSenderRequest, setIsListSenderRequest] = useState(true);
   const [isOpenFormCallVideo, setIsOpenFormCallVideo] = useState(""); //Cho form call video
   const [avatar, setAvatar] = useState(""); //Lưu tên mess khi nhận từ boxchat để truyền xuống ListMess
+  const socket = useRef();
+  const ENDPOINT = "localhost:8000";
 
   const navigate = useNavigate();
+  const loggedInUser = useSelector((state) => state.user.current);
 
   useEffect(() => {
     setAvatar(loggedInUser.avatar);
   }, []);
+  useEffect(() => {
+    socket.current = io(ENDPOINT, {
+      transports: ["websocket", "polling", "flashsocket"],
+    });
+  }, []);
+  const isChatHandler = ({ user, room }) => {
+    setIsWelcome(false);
+    setIsChatInput(true);
+    setUser(user);
+    setRoom(room);
+    //socket.emit('join',room);
+  };
+
+  const isChatHandlerFriend = ({ user, room }) => {
+    setUser(user);
+    setRoom(room);
+    setIsWelcome(false);
+    setIsChatInput(true);
+    setIsListSenderRequest(true);
+    setIsInviteFriend(false);
+    console.log("haha");
+    // socket.emit("join", room);
+  };
+
+  const btnMessHandler = () => {
+    setIsBtnMess(true);
+    setIsBtnPhoneBook(false);
+    setIsInviteFriend(false);
+    setIsWelcome(true);
+    setIsListSenderRequest(true);
+  };
+
+  const friendHandler = () => {
+    setIsBtnPhoneBook(true);
+    setIsBtnMess(false);
+    setIsInviteFriend(true);
+    setIsWelcome(false);
+    setIsChatInput(false);
+
+  };
+  const formInformationHandler = () => {
+    setIsForm(true);
+  };
+  const formfalseHandler = (falseFromForm) => {
+    setIsForm(falseFromForm);
+  };
+  const options = {
+    items: 1,
+    nav: true,
+    navText: [
+      '<i class="fas fa-chevron-left"></i>',
+      '<i class="fas fa-chevron-right"></i>',
+    ],
+    dots: true,
+    autoplay: true,
+    autoplayTimeout: 3000,
+    loop: true,
+  };
+
+  const logOutHandler = () => {
+    seIsOpenFormLogOut(true);
+  };
+  const falseFromLogOut = () => {
+    seIsOpenFormLogOut(false);
+  };
+
+  const isListSenderRequestHandler = (isListSenderRequest) => {
+    // console.log(isListSenderRequest);
+    setIsListSenderRequest(isListSenderRequest);
+  };
+
+  useEffect(() => {
+    socket.current.on("delete-group-by-me", (data) => {
+      setIsBtnMess(true);
+      setIsBtnPhoneBook(false);
+      setIsInviteFriend(false);
+      setIsWelcome(true);
+      setIsListSenderRequest(true);
+    });
+  }, []);
+
+  //socket khi ngta xóa nhóm thì mình hiện welcome
+  useEffect(() => {
+    socket.current.on("delete-group", (data) => {
+      setIsBtnMess(true);
+      setIsBtnPhoneBook(false);
+      setIsInviteFriend(false);
+      setIsWelcome(true);
+      setIsListSenderRequest(true);
+      toast.warn(`"Nhóm ${data.name} đã bị xóa!"`, {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: false,
+      });
+    });
+  }, []);
+
+  //socket khi mình tự rời nhóm thì nó hiện welcome
+  useEffect(() => {
+    socket.current.on("exit-group-by-me", (data) => {
+      setIsBtnMess(true);
+      setIsBtnPhoneBook(false);
+      setIsInviteFriend(false);
+      setIsWelcome(true);
+      setIsListSenderRequest(true);
+    });
+  }, []);
+
+  //socket khi mình khi bị người khác mời ra khỏi nhóm thì nó hiện welcome
+  useEffect(() => {
+    socket.current.on("removed-by-other-person", (data) => {
+      setIsBtnMess(true);
+      setIsBtnPhoneBook(false);
+      setIsInviteFriend(false);
+      setIsWelcome(true);
+      setIsListSenderRequest(true);
+      toast.warn(`"Bạn đã bị mời ra khỏi nhóm ${data.name}!"`, {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: false,
+      });
+    });
+  }, []);
+
+  //socket khi mình xóa bạn trong formUserInformation thì nó hiện welcome
+  useEffect(() => {
+    socket.current.on("delete-friend-by-me", (data) => {
+      setIsBtnMess(true);
+      setIsBtnPhoneBook(false);
+      setIsInviteFriend(false);
+      setIsWelcome(true);
+      setIsListSenderRequest(true);
+    });
+  }, []);
+
+  // const onReceiveNameFromBoxChat = (name) => {
+  //   setNameMess(name);
+  // };
+
+  const ReceiveAvatarFromFI = (avatar) => {
+    setAvatar(avatar);
+  };
+
+  const [createGroup, setCreateGroup] = useState(false); //Khi tạo group
+  const onReceiveListFriend = (createGroup) => {
+    setCreateGroup(createGroup);
+  };
+
   return (
     <Fragment>
       <div className={classes.wrapper}>
@@ -62,20 +224,24 @@ const Home = (props) => {
           }`}
         >
           {isBtnMess && (
-            <ListMess
-              onSendRoomToListMess={room}
-              onOpenChat={isChatHandler}
-              onSendSocketToListMess={socket}
-            />
+            // <ListMess
+            //   onSendRoomToListMess={room}
+            //   onOpenChat={isChatHandler}
+            //   onSendSocketToListMess={socket}
+            // />
+            <div>
+              isBtnMess
+            </div>
           )}
 
           {isBtnPhoneBook && (
-            <ListFriend
-              onSendSocketToListFriend={socket}
-              isListSenderRequest={isListSenderRequestHandler}
-              onOpenChat={isChatHandlerFriend}
-              onSendFromListFriendToHome={onReceiveListFriend} //Để lấy biến true khi tạo nhóm chat
-            />
+            // <ListFriend
+            //   onSendSocketToListFriend={socket}
+            //   isListSenderRequest={isListSenderRequestHandler}
+            //   onOpenChat={isChatHandlerFriend}
+            //   onSendFromListFriendToHome={onReceiveListFriend} //Để lấy biến true khi tạo nhóm chat
+            // />
+            <div>isBtnPhoneBook</div>
           )}
         </div>
 
@@ -139,21 +305,23 @@ const Home = (props) => {
           )}
 
           {isChatInput && (
-            <BoxChat
-              onSendSocketToBoxChat={socket}
-              onSendUserToBoxChat={user}
-              onSendRoomToBoxChat={room}
-              onReceiveCallingFromBoxChat={receiveCallingHandler}
-              onSendActiveAnswerToBoxChat={activeAnswer}
-              onFormFalseFromBoxChat={formfalseHandlerFromBoxChat}
-              onSendFromHomeToBoxChat={createGroup}
-            />
+            // <BoxChat
+            //   onSendSocketToBoxChat={socket}
+            //   onSendUserToBoxChat={user}
+            //   onSendRoomToBoxChat={room}
+            //   onReceiveCallingFromBoxChat={receiveCallingHandler}
+            //   onSendActiveAnswerToBoxChat={activeAnswer}
+            //   onFormFalseFromBoxChat={formfalseHandlerFromBoxChat}
+            //   onSendFromHomeToBoxChat={createGroup}
+            // />
+            <div>BoxChat</div>
           )}
 
           {isInviteFriend && isListSenderRequest && (
-            <ListSenderRequest onSendSocketToListSenderRequest={socket} />
+            // <ListSenderRequest onSendSocketToListSenderRequest={socket} />
+            <div>ListSenderRequset</div>
           )}
-          {!isListSenderRequest && <ListGroup></ListGroup>}
+          {!isListSenderRequest && <div>ListGroup</div>}
         </div>
       </div>
     </Fragment>

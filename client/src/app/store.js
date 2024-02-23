@@ -1,11 +1,11 @@
 import userReducer from "../components/Home/userSlice";
-// import roomReducer from "../components/Home/roomSlice";
+import roomReducer from "../components/Home/roomSlice";
 // import listUserReduce from "../components/Home/form-addGroup/listUserSlice";
 import { configureStore } from "@reduxjs/toolkit";
 
 const rootReducer = {
   user: userReducer,
-  // room: roomReducer,
+  room: roomReducer,
   // listUser: listUserReduce,
 };
 
