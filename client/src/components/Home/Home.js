@@ -23,6 +23,8 @@ import img4 from "../../assets/owl_4.png";
 import img5 from "../../assets/owl_5.jpg";
 import img6 from "../../assets/owl_6.jpg";
 
+import FormLogOut from "./formLogOut/formLogOut";
+
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 toast.configure();
@@ -124,6 +126,7 @@ const Home = (props) => {
   };
 
   const logOutHandler = () => {
+    console.log("logOutHandler");
     seIsOpenFormLogOut(true);
   };
   const falseFromLogOut = () => {

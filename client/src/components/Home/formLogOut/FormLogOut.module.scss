@@ -1,0 +1,138 @@
+.modalFormLogOut {
+    .backdrop {
+      position: fixed;
+      left: 0%;
+      top: 0%;
+      width: 300%;
+      height: 300%;
+      background: rgba(#1a1a1a, 0.6);
+      z-index: 99;
+      display: none;
+      &.active {
+        display: block;
+      }
+    }
+    .viewFormLogOut {
+      position: fixed;
+      top: 35%;
+      left: 40%;
+      transform: translateX(-50%) translateY(-50%);
+      background: white;
+      width: 25%;
+      height: 150px;
+      box-shadow: 4px 2px -5px 5px rgba($color: #1a1a1a, $alpha: 0.5);
+      z-index: 999;
+      border-radius: 4px;
+      border: 1px solid rgba($color: gray, $alpha: 0.2);
+      transform: scaleY(0) scaleX(0);
+      transition: all 0.3s;
+      &.active {
+        transform-origin: center;
+        transform: scaleY(1) scaleX(1) !important;
+      }
+      .header {
+        width: 100%;
+        display: flex;
+        padding: 5px 10px;
+        border-bottom: 1px solid rgba($color: gray, $alpha: 0.2);
+        justify-content: space-between;
+        align-items: center;
+        h2 {
+          font-size: 18px;
+        }
+        .cancel {
+          position: relative;
+          .blur {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            :hover {
+              background: rgba($color: gray, $alpha: 0.2);
+            }
+            i {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              color: black;
+              font-size: 30px;
+              cursor: pointer;
+              width: 30px;
+              height: 30px;
+              border-radius: 50%;
+            }
+          }
+        }
+      }
+    .body {
+          width: 100%;
+          height: 70px;
+          padding: 0 10px;
+    }
+    .footer{
+        width: 100%;
+        .button {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0 20px;
+            .cancel {
+              padding: 10px 15px;
+              background: rgba($color: gray, $alpha: 0.2);
+              border-radius: 5px;
+              color: black;
+              font-weight: bold;
+              cursor: pointer;
+              &:hover {
+                background: rgba($color: gray, $alpha: 0.5);
+              }
+            }
+            .confirm {
+              padding: 10px 15px;
+              background:#805740;
+              border-radius: 5px;
+              margin-left: 15px;
+              color: white;
+              font-weight: bold;
+              cursor: pointer;
+              position: relative;
+              &::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(white, 0.2);
+                opacity: 0;
+                transition: all 0.4s ease-out;
+              }
+              &::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(white, 0.2);
+                opacity: 0;
+                transition: all 0.5s ease-out;
+              }
+              &:hover {
+                &::after {
+                  opacity: 1;
+                  transform: scaleX(0);
+                }
+                &::before {
+                  opacity: 1;
+                  transform: scaleY(0);
+                }
+              }
+            }
+          }
+    }
+    }
+  }
+  
