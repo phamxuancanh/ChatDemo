@@ -1,7 +1,6 @@
 import React from "react";
 import { Fragment } from "react";
 import { useState, useEffect, useRef } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 // import OwlCarousel from "react-owl-carousel2";
