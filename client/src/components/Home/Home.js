@@ -1,6 +1,8 @@
 import React from "react";
 import { Fragment } from "react";
 import { useState, useEffect, useRef } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 // import OwlCarousel from "react-owl-carousel2";
 // import "react-owl-carousel2/lib/styles.css";
@@ -216,21 +218,12 @@ const Home = (props) => {
             <img src={avatar} alt="" />
             <div className={classes.active}></div>
           </div>
-          {/* <div
-            className={`${classes.mess} ${isBtnMess ? classes.activetoggle : ""
-              } `}
-            onClick={btnMessHandler}
-          > */}
+
           <div className={classes.mess + " " + (isBtnMess ? classes.activetoggle : "")}
             onClick={btnMessHandler}
           >
             <i className="fas fa-comment" title="Tin nhắn"></i>
           </div>
-          {/* <div
-            className={`${classes.friend} ${isBtnPhoneBook ? classes.activetoggle : ""
-              } `}
-            onClick={friendHandler}
-          > */}
           <div
             className={classes.friend + " " + (isBtnPhoneBook ? classes.activetoggle : "")}
             onClick={friendHandler}
@@ -238,14 +231,10 @@ const Home = (props) => {
             <i className="fas fa-address-book" title="Danh bạ"></i>
           </div>
           <div className={classes.logout} onClick={logOutHandler}>
-            <i className="fas fa-sign-out-alt"></i>
+          <i class="fa-solid fa-right-from-bracket"></i>            
           </div>
         </div>
 
-        {/* <div
-          className={`${classes.center} ${isChatInput ? classes.activeChat : ""
-            }`}
-        > */}
         <div
           className={classes.center + " " + (isChatInput ? classes.activeChat : "")}
         >
@@ -271,10 +260,6 @@ const Home = (props) => {
           )}
         </div>
 
-        {/* <div
-          className={`${classes.right} ${isChatInput ? classes.activeChat : ""
-            }`}
-        > */}
         <div
           className={classes.right + " " + (isChatInput ? classes.activeChat : "")}
         >
@@ -354,6 +339,12 @@ const Home = (props) => {
           {!isListSenderRequest && <div>ListGroup</div>}
         </div>
       </div>
+      {
+        <FormLogOut
+          isOpenFormLogOut={isOpenFormLogOut}
+          onFormFalse={falseFromLogOut}
+        ></FormLogOut>
+      }
     </Fragment>
   );
 };
