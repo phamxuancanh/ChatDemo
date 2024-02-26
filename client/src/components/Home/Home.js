@@ -1,13 +1,19 @@
 import React from "react";
 import { Fragment } from "react";
-import OwlCarousel from "react-owl-carousel2";
 import { useState, useEffect, useRef } from "react";
+
+// import OwlCarousel from "react-owl-carousel2";
+// import "react-owl-carousel2/lib/styles.css";
+// import "react-owl-carousel2/src/owl.theme.default.css";
+import Slick from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import io from "socket.io-client";
-import { toast } from "react-toastify";
-
 import classes from "./home.module.scss";
+import io from "socket.io-client";
+
 import img1 from "../../assets/owl_1.png";
 import img2 from "../../assets/owl_2.jpg";
 import img3 from "../../assets/owl_3.jpg";
@@ -15,13 +21,15 @@ import img4 from "../../assets/owl_4.png";
 import img5 from "../../assets/owl_5.jpg";
 import img6 from "../../assets/owl_6.jpg";
 
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 toast.configure();
 
 const Home = (props) => {
-  const [activeAnswer, setAciveAnswer] = useState(false);
-  const [activeCalling, setActiveCalling] = useState(false);
-  const [checkOpenFormCalling, setCheckOpenFormCalling] = useState(false);
-  const [dataSignal, setDataSignal] = useState(null);
+  // const [activeAnswer, setAciveAnswer] = useState(false);
+  // const [activeCalling, setActiveCalling] = useState(false);
+  // const [checkOpenFormCalling, setCheckOpenFormCalling] = useState(false);
+  // const [dataSignal, setDataSignal] = useState(null);
   const [isWelcome, setIsWelcome] = useState(true);
   const [isBtnMess, setIsBtnMess] = useState(true);
   const [isBtnPhoneBook, setIsBtnPhoneBook] = useState(false);
@@ -32,9 +40,10 @@ const Home = (props) => {
   const [room, setRoom] = useState(null);
   const [isOpenFormLogOut, seIsOpenFormLogOut] = useState(false);
   const [isListSenderRequest, setIsListSenderRequest] = useState(true);
-  const [isOpenFormCallVideo, setIsOpenFormCallVideo] = useState(""); //Cho form call video
+  // const [isOpenFormCallVideo, setIsOpenFormCallVideo] = useState(""); //Cho form call video
   const [avatar, setAvatar] = useState(""); //Lưu tên mess khi nhận từ boxchat để truyền xuống ListMess
   const socket = useRef();
+
   const ENDPOINT = "localhost:8000";
 
   const navigate = useNavigate();
@@ -43,11 +52,21 @@ const Home = (props) => {
   useEffect(() => {
     setAvatar(loggedInUser.avatar);
   }, []);
+  console.log(loggedInUser.name);
   useEffect(() => {
     socket.current = io(ENDPOINT, {
       transports: ["websocket", "polling", "flashsocket"],
     });
   }, []);
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1
+  };
+
   const isChatHandler = ({ user, room }) => {
     setIsWelcome(false);
     setIsChatInput(true);
@@ -197,18 +216,23 @@ const Home = (props) => {
             <img src={avatar} alt="" />
             <div className={classes.active}></div>
           </div>
-          <div
-            className={`${classes.mess} ${
-              isBtnMess ? classes.activetoggle : ""
-            } `}
+          {/* <div
+            className={`${classes.mess} ${isBtnMess ? classes.activetoggle : ""
+              } `}
+            onClick={btnMessHandler}
+          > */}
+          <div className={classes.mess + " " + (isBtnMess ? classes.activetoggle : "")}
             onClick={btnMessHandler}
           >
             <i className="fas fa-comment" title="Tin nhắn"></i>
           </div>
+          {/* <div
+            className={`${classes.friend} ${isBtnPhoneBook ? classes.activetoggle : ""
+              } `}
+            onClick={friendHandler}
+          > */}
           <div
-            className={`${classes.friend} ${
-              isBtnPhoneBook ? classes.activetoggle : ""
-            } `}
+            className={classes.friend + " " + (isBtnPhoneBook ? classes.activetoggle : "")}
             onClick={friendHandler}
           >
             <i className="fas fa-address-book" title="Danh bạ"></i>
@@ -218,10 +242,12 @@ const Home = (props) => {
           </div>
         </div>
 
+        {/* <div
+          className={`${classes.center} ${isChatInput ? classes.activeChat : ""
+            }`}
+        > */}
         <div
-          className={`${classes.center} ${
-            isChatInput ? classes.activeChat : ""
-          }`}
+          className={classes.center + " " + (isChatInput ? classes.activeChat : "")}
         >
           {isBtnMess && (
             // <ListMess
@@ -245,10 +271,12 @@ const Home = (props) => {
           )}
         </div>
 
+        {/* <div
+          className={`${classes.right} ${isChatInput ? classes.activeChat : ""
+            }`}
+        > */}
         <div
-          className={`${classes.right} ${
-            isChatInput ? classes.activeChat : ""
-          }`}
+          className={classes.right + " " + (isChatInput ? classes.activeChat : "")}
         >
           {isWelcome && (
             <div className={classes.first}>
@@ -261,8 +289,8 @@ const Home = (props) => {
                   người thân, bạn bè được tối ưu hóa cho máy tính của bạn.
                 </p>
               </div>
-              <div className={classes.owl}>
-                <OwlCarousel options={options}>
+              <div className={classes.slick}>
+                <Slick {...settings}>
                   <div className={classes.item}>
                     <img src={img1} alt="1" />
                     <h4>Nhắn tin nhiều hơn, soạn thảo ít hơn</h4>
@@ -299,7 +327,9 @@ const Home = (props) => {
                     <h4>Giải quyết công việc hiệu quả hơn, lên đến 40%</h4>
                     <p>Với ZOLA PC</p>
                   </div>
-                </OwlCarousel>
+                </Slick>
+
+
               </div>
             </div>
           )}
