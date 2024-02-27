@@ -74,7 +74,7 @@ const getRoomAfterLogin = async (req, res, next) => {
 
         for (let i = 0; i < listMessage.length; i++) {
             const room = await Rooms.findOne({
-                _id: mongoose.Types.ObjectId(listMessage[i].RoomId)
+                _id: new mongoose.Types.ObjectId(listMessage[i].RoomId)
             })
             listRoomSort.push(room)
         }

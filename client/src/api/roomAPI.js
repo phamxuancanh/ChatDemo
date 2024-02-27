@@ -2,27 +2,27 @@ import axiosClient from "./axiosClient";
 
 const roomAPI = {
   getRoomByUserId(userId) {
-    const url = "api/rooms/getRoomByUserId/" + userId.userId;
+    const url = "api/chatrooms/getRoomByUserId/" + userId.userId;
     return axiosClient.get(url, userId);
   },
   getRoomFriend() {
-    const url = "api/rooms/getRoomFriend/";
+    const url = "api/chatrooms/getRoomFriend/";
     return axiosClient.get(url);
   },
   getRoomAfterLogin() {                         //load list mess
-    const url = "api/rooms/getRoomAfterLogin/";
+    const url = "api/chatrooms/getRoomAfterLogin/";
     return axiosClient.get(url);
   },
   getRoomGroup() {
-    const url = "api/rooms/getRoomGroup/";
+    const url = "api/chatrooms/getRoomGroup/";
     return axiosClient.get(url);
   },
   getRoomByNameRoom(name) {
-    const url = "api/rooms/getRoomByNameRoom/";
+    const url = "api/chatrooms/getRoomByNameRoom/";
     return axiosClient.post(url, name);
   },
   getRoomByNameFriend(name) {
-    const url = "api/rooms/getRoomByNameFriend/";
+    const url = "api/chatrooms/getRoomByNameFriend/";
     return axiosClient.post(url, name);
   },
 };

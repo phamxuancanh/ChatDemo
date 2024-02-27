@@ -96,7 +96,7 @@ async function removeSocketIdInDB(user_id) {
 }
 
 async function getAllRoomById(user_id) {
-    const _id = ObjectId(user_id);
+    const _id = new ObjectId(user_id);
     const rooms = await Room.find({
         users: { $in: [_id] },
     });

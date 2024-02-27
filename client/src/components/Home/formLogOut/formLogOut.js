@@ -44,6 +44,7 @@ const FormAddFriend = (props) => {
         //   console.log(localStorage.getItem("refreshToken"));
         const fetchLogOut = async () => {
             try {
+                console.log(Cookies.get("refreshToken"));
                 const logOut = await logoutAPI.logout({
                     refreshToken: Cookies.get("refreshToken"),
                 });

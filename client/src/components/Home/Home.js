@@ -23,6 +23,7 @@ import img5 from "../../assets/owl_5.jpg";
 import img6 from "../../assets/owl_6.jpg";
 
 import FormLogOut from "./formLogOut/formLogOut";
+import ListMess from "./ListMess";
 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -241,27 +242,23 @@ const Home = (props) => {
           className={classes.center + " " + (isChatInput ? classes.activeChat : "")}
         >
           {isBtnMess && (
-            // <ListMess
-            //   onSendRoomToListMess={room}
-            //   onOpenChat={isChatHandler}
-            //   onSendSocketToListMess={socket}
-            // />
-            <div>
-              isBtnMess
-            </div>
+            <ListMess
+              onSendRoomToListMess={room}
+              onOpenChat={isChatHandler}
+              onSendSocketToListMess={socket}
+            />
           )}
 
           {isBtnPhoneBook && (
             // <ListFriend
             //   onSendSocketToListFriend={socket}
             //   isListSenderRequest={isListSenderRequestHandler}
-            //   onOpenChat={isChatHandlerFriend}
+            //   onOpenChat={isChatHandlerFriend}c:\Users\Windows\Downloads\ZaloApp\FrontEnd\src\components\Home\ListMess.js
             //   onSendFromListFriendToHome={onReceiveListFriend} //Để lấy biến true khi tạo nhóm chat
             // />
             <div>isBtnPhoneBook</div>
           )}
         </div>
-
         <div
           className={classes.right + " " + (isChatInput ? classes.activeChat : "")}
         >
