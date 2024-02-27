@@ -24,7 +24,7 @@ import img6 from "../../assets/owl_6.jpg";
 
 import FormLogOut from "./formLogOut/formLogOut";
 import ListMess from "./ListMess";
-
+import BoxChat from "./BoxChat";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 toast.configure();
@@ -319,16 +319,16 @@ const Home = (props) => {
           )}
 
           {isChatInput && (
-            // <BoxChat
-            //   onSendSocketToBoxChat={socket}
-            //   onSendUserToBoxChat={user}
-            //   onSendRoomToBoxChat={room}
-            //   onReceiveCallingFromBoxChat={receiveCallingHandler}
-            //   onSendActiveAnswerToBoxChat={activeAnswer}
-            //   onFormFalseFromBoxChat={formfalseHandlerFromBoxChat}
-            //   onSendFromHomeToBoxChat={createGroup}
-            // />
-            <div>BoxChat</div>
+            <BoxChat
+              onSendSocketToBoxChat={socket}
+              onSendUserToBoxChat={user}
+              onSendRoomToBoxChat={room}
+              onReceiveCallingFromBoxChat={receiveCallingHandler}
+              onSendActiveAnswerToBoxChat={activeAnswer}
+              onFormFalseFromBoxChat={formfalseHandlerFromBoxChat}
+              onSendFromHomeToBoxChat={createGroup}
+            />
+            // <div>BoxChat</div>
           )}
 
           {isInviteFriend && isListSenderRequest && (

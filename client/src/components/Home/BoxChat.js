@@ -5,13 +5,13 @@ import messageAPI from "../../api/messageAPI";
 import Chat from "./Chat";
 import { useSelector } from "react-redux";
 import { useRef } from "react";
-import FormUserInfomation from "./form-information/FormUserInfomation";
-import FormAddMember from "./form-addGroup/FormAddMember";
-import FormCallVideo from "./form-video/FormCallVideo";
-import FormOutGroup from "./form-outGroupChat/formOutGroup";
-import FormRemoveMember from "./form-outGroupChat/formRemoveMember";
-import FormDeleteGroup from "./form-outGroupChat/formDeleteGroupChat";
-import FormDeleteFriend from "./form-deleteFriend/FormDeleteFriend";
+// import FormUserInfomation from "./form-information/FormUserInfomation";
+// import FormAddMember from "./form-addGroup/FormAddMember";
+// import FormCallVideo from "./form-video/FormCallVideo";
+// import FormOutGroup from "./form-outGroupChat/formOutGroup";
+// import FormRemoveMember from "./form-outGroupChat/formRemoveMember";
+// import FormDeleteGroup from "./form-outGroupChat/formDeleteGroupChat";
+// import FormDeleteFriend from "./form-deleteFriend/FormDeleteFriend";
 import Member from "./Member";
 import Picker from "emoji-picker-react";
 import axios from "axios";
@@ -848,7 +848,7 @@ const BoxChat = (props) => {
           </div>
         )}
       </div>
-
+      {/*
       {
         <FormUserInfomation
           isFormInfomation={isFormInfomation}
@@ -923,6 +923,8 @@ const BoxChat = (props) => {
         messages={messages}
         nameRoom={nameRoom}
       />
+
+      */}
     </Fragment>
   );
 };
