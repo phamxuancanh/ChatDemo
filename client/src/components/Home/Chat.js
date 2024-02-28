@@ -25,11 +25,6 @@ const Chat = (props) => {
   const loggedInUser = useSelector((state) => state.user.current);
   const avatar = loggedInUser.avatar;
 
-  // var date = new Date(props.data.createdAt);
-  // var hour = date.getHours();
-  // var minute = date.getMinutes();
-  // var timeFormated = hour + ":" + minute
-
 
   const time = moment(props.data.createdAt);
 

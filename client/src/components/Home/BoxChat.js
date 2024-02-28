@@ -7,7 +7,7 @@ import messageAPI from "../../api/messageAPI";
 import Chat from "./Chat";
 import { useSelector } from "react-redux";
 import { useRef } from "react";
-// import FormUserInfomation from "./form-information/FormUserInfomation";
+import FormUserInfomation from  "./formInformation/formUserInformation"
 // import FormAddMember from "./form-addGroup/FormAddMember";
 // import FormCallVideo from "./form-video/FormCallVideo";
 // import FormOutGroup from "./form-outGroupChat/formOutGroup";
@@ -73,7 +73,7 @@ const BoxChat = (props) => {
   const idLogin = loggedInUser._id;
   const _isMounted = useRef(true);
 
-  //Set biến true để mở form FormUserInformation cho thằng FormUserInformation
+  //Set biến true để mở form FormUserInformation cho FormUserInformation
   const openFormUserInfomation = () => {
     setIsFormInfomation(true);
   };
@@ -238,7 +238,7 @@ const BoxChat = (props) => {
     fd.append("uploadFile", fileSelected);
     //     }
     axios
-      .post("//localhost:5000/messages/addFile", fd)
+      .post("//localhost:8000/api/messages/addFile", fd)
       .then((res) => {
         console.log(res.data);
         // if();
@@ -478,10 +478,12 @@ const BoxChat = (props) => {
     const newMessage = {
       sender: idLogin,
       type: "gif",
-      text:
-        e.currentTarget.childNodes[0].childNodes[0].childNodes[1].attributes[
-          "src"
-        ].value,
+      // text:
+      //   e.currentTarget.childNodes[0].childNodes[0].childNodes[1].attributes[
+      //     "src"
+      //   ].value,
+      text: gif.images.original.url, // Truy cập URL từ đối tượng gif
+
       RoomId: props.onSendRoomToBoxChat?._id,
     };
     const fetchAddMessage = async () => {
@@ -831,7 +833,7 @@ const BoxChat = (props) => {
           </div>
         )}
       </div>
-      {/*
+
       {
         <FormUserInfomation
           isFormInfomation={isFormInfomation}
@@ -844,6 +846,7 @@ const BoxChat = (props) => {
           // onSendNameToBoxChat = {receiveNameFromFUI}
         ></FormUserInfomation>
       }
+            {/*
       {
         <FormAddMember
           isOpenFormAddGroup={isOpenFormAddGroup}
