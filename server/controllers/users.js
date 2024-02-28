@@ -4,7 +4,7 @@ const Rooms = require("../models/chatrooms");
 const mongoose = require("mongoose");
 const FilterUserData = require("../utils/FilterUserData");
 const bcrypt = require("bcryptjs");
-
+//lấy danh sách người dùng
 const getAllUser = async (req, res, next) => {
     try {
         const users = await User.find({});
@@ -13,6 +13,7 @@ const getAllUser = async (req, res, next) => {
         next(error);
     }
 };
+//thêm người dùng
 const newUser = async (req, res, next) => {
     try {
         const newUser = new User(req.body);
@@ -29,6 +30,7 @@ const newUser = async (req, res, next) => {
         next(error);
     }
 };
+//lấy người dùng theo id
 const getUser = async (req, res, next) => {
     try {
         const id = req.params.userID;
@@ -39,6 +41,7 @@ const getUser = async (req, res, next) => {
         next(error);
     }
 };
+//cập nhập người dùng
 const updateUser = async (req, res, next) => {
     try {
         const id = req.params.userID;
@@ -49,6 +52,7 @@ const updateUser = async (req, res, next) => {
         next(error);
     }
 };
+//thay thế người dùng
 const replaceUser = async (req, res, next) => {
     try {
         const id = req.params.userID;
@@ -59,6 +63,7 @@ const replaceUser = async (req, res, next) => {
         next(error);
     }
 };
+//xóa người dùng
 const deleteUser = async (req, res, next) => {
     try {
         const id = req.params.userID;
@@ -68,6 +73,7 @@ const deleteUser = async (req, res, next) => {
         next(error);
     }
 };
+//  gửi yêu cầu kết bạn
 const requestAddFriend = async (req, res, next) => {
     try {
         const foundUser = await User.findOne({ _id: req.payload.userId });
@@ -119,6 +125,7 @@ const requestAddFriend = async (req, res, next) => {
         next(error);
     }
 };
+//hủy yêu cầu kết bạn
 const cancelSendedFriend = async (req, res, next) => {
     try {
         const foundUser = await User.findOne({ _id: req.payload.userId });
@@ -146,6 +153,7 @@ const cancelSendedFriend = async (req, res, next) => {
         next(error);
     }
 };
+//chấp nhận yêu cầu kết bạn
 const acceptFriend = async (req, res, next) => {
     try {
         const foundUser = await User.findOne({ _id: req.payload.userId });
@@ -229,6 +237,8 @@ const acceptFriend = async (req, res, next) => {
         next(error);
     }
 };
+
+//từ chối yêu cầu kết bạn
 const declineFriend = async (req, res, next) => {
     try {
         const foundUser = await User.findOne({ _id: req.payload.userId });
@@ -266,6 +276,7 @@ const declineFriend = async (req, res, next) => {
         next(error);
     }
 };
+//lấy người dùng sau khi đăng nhập
 const GetUserAfterLogin = async (req, res, next) => {
     try {
         const foundUser = await User.findOne({ _id: req.payload.userId });
@@ -279,6 +290,7 @@ const GetUserAfterLogin = async (req, res, next) => {
         next(error);
     }
 };
+//lấy người dùng theo số điện thoại
 const GetUserByPhone = async (req, res, next) => {
     try {
         const foundUser = await User.findOne({ _id: req.payload.userId });
@@ -300,6 +312,7 @@ const GetUserByPhone = async (req, res, next) => {
         next(error);
     }
 };
+//lấy người dùng theo tên
 const GetUserByName = async (req, res, next) => {
     try {
         const foundUser = await User.findOne({ _id: req.payload.userId });
@@ -328,6 +341,7 @@ const GetUserByName = async (req, res, next) => {
         next(error);
     }
 };
+//kiểm tra đã kết bạn chưa
 const checkFriend = async (req, res, next) => {
     console.log("Hien ne");
     try {
@@ -349,6 +363,7 @@ const checkFriend = async (req, res, next) => {
         next(err);
     }
 };
+//chặn người dùng
 const blockFriend = async (req, res, next) => {
     try {
         const foundUser = await User.findOne({ _id: req.payload.userId });
@@ -424,6 +439,7 @@ const blockFriend = async (req, res, next) => {
 //         next(error);
 //     }
 // };
+//lấy người dùng theo tên
 const GetFriendByName = async (req, res, next) => {
     try {
         const foundUser = await User.findOne({ _id: req.payload.userId });
@@ -452,7 +468,7 @@ const GetFriendByName = async (req, res, next) => {
     }
 };
 
-
+//lấy người dùng theo số điện thoại
 const GetFriendByPhone = async (req, res, next) => {
     try {
         const foundUser = await User.findOne({ _id: req.payload.userId });
@@ -476,7 +492,7 @@ const GetFriendByPhone = async (req, res, next) => {
         next(error);
     }
 };
-
+//hủy kết bạn
 const deleteFriend = async (req, res, next) => {
     try {
         const foundUser = await User.findOne({ _id: req.payload.userId });
@@ -510,7 +526,7 @@ const deleteFriend = async (req, res, next) => {
         );
         const Room = await Rooms.deleteOne({
             users: {
-                $in: [req.payload.userId, mongoose.Types.ObjectId(req.body.friendId)],
+                $in: [req.payload.userId, new mongoose.Types.ObjectId(req.body.friendId)],
             },
             group: false,
         });

@@ -29,7 +29,7 @@ const storage = multer.memoryStorage({
 const upload = multer({ storage, limits: { fileSize: 20000000 } }).single(
     "uploadFile"
 );
-
+//gửi tin nhắn
 const addMessage = async (req, res, next) => {
     try {
         console.log(req.body);
@@ -93,6 +93,7 @@ const addMessage = async (req, res, next) => {
 //         });
 //     });
 // };
+//thu hồi tin nhắn
 const cancelMessage = async (req, res, next) => {
     try {
         const foundUser = await User.findOne({ _id: req.payload.userId });
@@ -114,7 +115,7 @@ const cancelMessage = async (req, res, next) => {
         next(err);
     }
 };
-
+//đánh dấu đã đọc tin nhắn
 const readMessage = async (req, res, next) => {
     try {
         const foundUser = await User.findOne({ _id: req.payload.userId });
@@ -140,7 +141,7 @@ const readMessage = async (req, res, next) => {
         next(err);
     }
 };
-
+//lấy tin nhắn
 const getMessage = async (req, res, next) => {
     try {
         const foundUser = await User.findOne({ _id: req.payload.userId });
@@ -190,7 +191,7 @@ const getMessage = async (req, res, next) => {
 //         next(err);
 //     }
 // };
-
+//lấy tin nhắn mới
 const getNewMessage = async (req, res, next) => {
     try {
         const foundUser = await User.findOne({ _id: req.payload.userId });

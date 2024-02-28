@@ -2,7 +2,7 @@ const User = require("../models/users");
 const Message = require("../models/messages");
 const Rooms = require("../models/chatrooms");
 const mongoose = require("mongoose");
-
+//thêm phong chat
 const addRoom = async (req, res, next) => {
     try {
         const foundUser = await User.findOne({ _id: req.payload.userId });
@@ -41,6 +41,7 @@ const addRoom = async (req, res, next) => {
         next(err);
     }
 };
+//lấy các phòng sau khi đăng nhập
 const getRoomAfterLogin = async (req, res, next) => {
     try {
         const foundUser = await User.findOne({ _id: req.payload.userId });
@@ -84,6 +85,7 @@ const getRoomAfterLogin = async (req, res, next) => {
         next(err);
     }
 };
+//lấy những phòng chat riêng
 const getRoomFriend = async (req, res, next) => {
     try {
         const foundUser = await User.findOne({ _id: req.payload.userId });
@@ -101,6 +103,7 @@ const getRoomFriend = async (req, res, next) => {
         next(err);
     }
 };
+//lấy những phòng chat group
 const getRoomGroup = async (req, res, next) => {
     try {
         const foundUser = await User.findOne({ _id: req.payload.userId });
@@ -118,6 +121,7 @@ const getRoomGroup = async (req, res, next) => {
         next(err);
     }
 };
+//lấy phòng chat theo id người dùng
 const getRoomByUserId = async (req, res, next) => {
     try {
         const foundUser = await User.findOne({ _id: req.payload.userId });
@@ -141,6 +145,7 @@ const getRoomByUserId = async (req, res, next) => {
         next(err);
     }
 };
+//lấy phòng chat theo id
 const getRoomById = async (req, res, next) => {
     try {
         const foundUser = await User.findOne({ _id: req.payload.userId });
@@ -158,6 +163,7 @@ const getRoomById = async (req, res, next) => {
         next(err);
     }
 };
+//lấy tất cả phòng chat
 const getAllRooms = async (req, res, next) => {
     try {
         const foundUser = await User.findOne({ _id: req.payload.userId });
@@ -172,6 +178,7 @@ const getAllRooms = async (req, res, next) => {
         next(error);
     }
 };
+//xóa phòng chat
 const deleteRoom = async (req, res, next) => {
     try {
         const foundUser = await User.findOne({ _id: req.payload.userId });
@@ -209,6 +216,7 @@ const deleteRoom = async (req, res, next) => {
         next(err);
     }
 };
+//thoát khỏi phòng chat
 const exitRoom = async (req, res, next) => {
     try {
         const id = req.body.id;
@@ -246,6 +254,7 @@ const exitRoom = async (req, res, next) => {
         next(err);
     }
 };
+//cập nhật phòng chat
 const updateRoom = async (req, res, next) => {
     try {
         const id = req.params.RoomID;
@@ -282,6 +291,7 @@ const updateRoom = async (req, res, next) => {
         next(err);
     }
 };
+//thêm thành viên vào phòng chat
 const addMember = async (req, res, next) => {
     try {
         const id = req.body.id;
@@ -338,6 +348,7 @@ const addMember = async (req, res, next) => {
         next(err);
     }
 };
+//xóa thành viên khỏi phòng chat
 const removeMember = async (req, res, next) => {
     try {
         const { id,  userWantRemove    } = req.body;
@@ -381,6 +392,7 @@ const removeMember = async (req, res, next) => {
         next(err);
     }
 };
+//chuyển nhóm trưởng
 const swapRoomMaster = async (req, res, next) => {
     try {
         const { id, userWantSwap } = req.body;
@@ -415,7 +427,7 @@ const swapRoomMaster = async (req, res, next) => {
         next(err);
     }
 };
-
+//lấy phòng chat theo tên
 const getRoomByNameRoom = async (req, res, next) => {
     try {
         const foundUser = await User.findOne({ _id: req.payload.userId });
@@ -436,7 +448,7 @@ const getRoomByNameRoom = async (req, res, next) => {
     }
 };
 
-//
+//lấy phòng chat theo tên bạn bè
 const getRoomByNameFriend = async (req, res, next) => {
     try {
         const foundUser = await User.findOne({ _id: req.payload.userId });

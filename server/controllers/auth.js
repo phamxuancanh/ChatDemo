@@ -7,6 +7,7 @@ const {
     signRefreshToken,
     verifyRefreshToken,
 } = require("../helpers/jwt_service");
+//đăng nhập
 const signIn = async (req, res, next) => {
     try {
         const { phone, password } = req.body;
@@ -37,6 +38,7 @@ const signIn = async (req, res, next) => {
     }
     // Assign a token
 };
+//đăng ký
 const signUp = async (req, res, next) => {
     try {
         const { name, phone, password } = req.value.body;
@@ -63,6 +65,7 @@ const signUp = async (req, res, next) => {
         next(error);
     }
 };
+//đăng ký accesstoken mới
 const refreshToken = async (req, res, next) => {
     try {
         const { refreshToken } = req.body;
@@ -78,6 +81,7 @@ const refreshToken = async (req, res, next) => {
         next(error);
     }
 };
+//đăng xuất
 const Logout = async (req, res, next) => {
     try {
         const { refreshToken } = req.body;
@@ -97,6 +101,7 @@ const Logout = async (req, res, next) => {
         next(error);
     }
 };
+//đổi mật khẩu
 const ChangePassword = async (req, res, next) => {
     try {
         const { password, reEnterPassword, newPassword } = req.body;
@@ -134,6 +139,7 @@ const ChangePassword = async (req, res, next) => {
         next(error);
     }
 };
+//quên mật khẩu sử dụng otp
 const forgotPassword = async (req, res, next) => {
     try {
         const { phone, code, Password, reEnterPassword } = req.body;
@@ -169,6 +175,7 @@ const forgotPassword = async (req, res, next) => {
         next(error);
     }
 };
+//gửi otp
 const sendOTP = async (req, res, next) => {
     try {
         const { phone } = req.body;
@@ -190,6 +197,7 @@ const sendOTP = async (req, res, next) => {
         next(error);
     }
 };
+//xác thực otp
 const verifyOTPSignUp = async (req, res, next) => {
     try {
         const { phone, code } = req.body;

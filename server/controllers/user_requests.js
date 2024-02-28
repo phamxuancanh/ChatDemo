@@ -1,7 +1,7 @@
 const User = require("../models/users");
 const UserRequest = require("../models/user_requests");
 const FilterUserData = require("../utils/FilterUserData");
-
+//lấy danh sách yêu cầu kết bạn
 const getListSenderRequest = async (req, res, next) => {
     try {
         const foundUser = await User.findOne({ _id: req.payload.userId });
@@ -18,7 +18,7 @@ const getListSenderRequest = async (req, res, next) => {
         next(err)
     }
 }
-
+//lấy danh sách người gửi yêu cầu kết bạn
 const getListReceiver = async (req, res, next) => {
     try {
         const foundUser = await User.findOne({ _id: req.payload.userId });
@@ -35,7 +35,7 @@ const getListReceiver = async (req, res, next) => {
         next(err)
     }
 }
-
+//kiểm tra đã gửi yêu cầu kết bạn chưa
 const checkSendRequest = async (req, res, next) => {
     try {
         const foundUser = await User.findOne({ _id: req.payload.userId });
