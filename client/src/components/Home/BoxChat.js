@@ -82,11 +82,9 @@ const BoxChat = (props) => {
   const closeFormInformation = (falseFromFUI) => {
     setIsFormInfomation(falseFromFUI);
   };
-
+  //gửi tin nhắn bằng nút enter
   const chatHandler = (event) => {
     setEnteredChat(event.target.value);
-
-    //enter gửi tin nhắn
     if (event.charCode === 13) {
       const newMessage = {
         sender: idLogin,
@@ -111,38 +109,7 @@ const BoxChat = (props) => {
       fetchAddMessage();
     }
   };
-
-
-  // const SendMessageHandler = async (e) => {
-  //   e.preventDefault();
-  //   const newMessage = {
-  //     sender: idLogin,
-  //     type: "text",
-  //     text: enteredChat,
-  //     active: true,
-  //     RoomId: props.onSendRoomToBoxChat?._id,
-  //   };
-  //   const fetchAddMessage = async () => {
-  //     try {
-  //       const res = await messageAPI.AddMessage({
-  //         message: newMessage,
-  //       });
-  //       setMessages([...messages, res.data]);
-  //       //console.log(res.data);
-  //       setEnteredChat("");
-  //       setShowEmoji(false);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   fetchAddMessage();
-  // };
-
-  // console.log(props.onSendSocketToBoxChat);
-
-  // console.log(props.onSendRoomToBoxChat._id); //lấy object room từ bên home gửi qua
-  // console.log(props.onSendUserToBoxChat);
-
+  //lấy các tin nhắn trong đoạn chat lên
   useEffect(() => {
     const fetchMessage = async () => {
       try {
@@ -157,6 +124,7 @@ const BoxChat = (props) => {
     fetchMessage();
   }, [props.onSendRoomToBoxChat]);
 
+  //gửi tin nhắn bằng nút send
   const SendMessageHandler = async (e) => {
     e.preventDefault();
     const newMessage = {
@@ -181,11 +149,10 @@ const BoxChat = (props) => {
     };
     fetchAddMessage();
   };
-
+  //hiển thị tin nhắn cho người khác nhắn tới
   useEffect(() => {
     props.onSendSocketToBoxChat.current.on("send-message", (data) => {
       if (props.onSendRoomToBoxChat?._id === data.RoomId) {
-        // if (_isMounted.current) {
         setRoomSended(data.RoomId);
         setArrivalMessage({
           sender: data.sender,
@@ -196,15 +163,12 @@ const BoxChat = (props) => {
         });
       }
     });
-    // return () => {
-    //   _isMounted.current = false;
-    // };
   }, [props.onSendRoomToBoxChat]);
 
   //socket tự bản thân xóa nhóm chat
   useEffect(() => {
     props.onSendSocketToBoxChat.current.on("delete-group-by-me", (data) => {
-      // alert("t xóa nhóm rồi" + data.name)
+    alert("tao xoa nhom" + data.name)
     });
   }, []);
 
@@ -212,12 +176,8 @@ const BoxChat = (props) => {
     if (props.onSendRoomToBoxChat?._id === roomSended) {
       arrivalMessage &&
         props.onSendRoomToBoxChat?.users.includes(arrivalMessage.sender) &&
-        // _isMounted.current &&
         setMessages((prev) => [...prev, arrivalMessage]);
     }
-    // return () => {
-    //   _isMounted.current = false;
-    // };
   }, [arrivalMessage || props.onSendRoomToBoxChat || roomSended]);
 
   const scrollRef = useRef();
