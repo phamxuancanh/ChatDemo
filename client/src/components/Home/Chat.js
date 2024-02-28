@@ -8,6 +8,8 @@ import moment from "moment";
 import Moment from "react-moment";
 import { useSelector } from "react-redux";
 import messageAPI from "../../api/messageAPI";
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
 // import FormFordWardMessage from "./form-fordwardMessage/FormFordWardMessage";
 // import FormViewImage from "./form-video/FormViewImage";
 
@@ -220,7 +222,7 @@ const Chat = (props) => {
                           }`}
                           onClick={deleteActive}
                         >
-                          <i className="fas fa-ellipsis-h"></i>
+                          <i className="fa fa-ellipsis-h"></i>
                           <ul className={`${classes.dropdown}`}>
                             <li
                               onClick={cancelMessageHandler}

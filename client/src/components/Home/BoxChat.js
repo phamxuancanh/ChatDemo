@@ -1,5 +1,7 @@
 import React, { Fragment, useEffect } from "react";
 import classes from "./home.module.scss";
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
 import { useState } from "react";
 import messageAPI from "../../api/messageAPI";
 import Chat from "./Chat";
@@ -533,9 +535,8 @@ const BoxChat = (props) => {
     <Fragment>
       <div className={classes.second}>
         <div
-          className={`${classes.secondLeft} ${
-            isOpenFormBoxChatInfoHandler ? classes.openFormBoxChatInfo : ""
-          } `}
+          className={`${classes.secondLeft} ${isOpenFormBoxChatInfoHandler ? classes.openFormBoxChatInfo : ""
+            } `}
         >
           <div className={classes["top-right"]}>
             <div className={classes.topName}>
@@ -546,7 +547,7 @@ const BoxChat = (props) => {
                 <h2>{nameRoom}</h2>
                 {props.onSendRoomToBoxChat.users.length > 2 ? (
                   <p onClick={openFormBoxChatInfoHandler}>
-                    <i className="far fa-user"></i> {arrayMember.new?.length}{" "}
+                    <i className="fa-solid fa-user"></i> {arrayMember.new?.length}{" "}
                     thành viên
                   </p>
                 ) : (
@@ -579,7 +580,6 @@ const BoxChat = (props) => {
           </div>
           <div className={`${classes["center-right"]}`}>
             <Scrollbars
-              // style={{ height: "610px" }}
               className={classes["list-mess"]}
               id="style-2"
               renderTrackHorizontal={(props) => (
@@ -594,9 +594,8 @@ const BoxChat = (props) => {
                 return (
                   <div
                     ref={scrollRef}
-                    className={`${classes.listChat} ${
-                      data.sender === idLogin ? classes.message_own : ""
-                    }`}
+                    className={`${classes.listChat} ${data.sender === idLogin ? classes.message_own : ""
+                      }`}
                     key={index}
                   >
                     <Chat
@@ -622,13 +621,13 @@ const BoxChat = (props) => {
           </div>
           <div className={classes["botom-right"]}>
             <div className={classes.toolbar}>
-              <i className="bi bi-image">
+              <i className="fa-solid fa-image">
                 <input type="file" onChange={fileUploadHandler} multiple />
               </i>
-              <i className="bi bi-paperclip">
+              <i className="fa-solid fa-file">
                 <input type="file" onChange={fileUploadHandler} multiple />
               </i>
-              <i className="fab fa-waze" onClick={gifHandler}></i>
+              <i class="fa-solid fa-gift" onClick={gifHandler}></i>
             </div>
             <div className={classes["input-chat"]}>
               <input
@@ -652,9 +651,8 @@ const BoxChat = (props) => {
           <div
             onClick={handleClickOutside}
             ref={myRef}
-            className={`${classes.secondRight} ${
-              isOpenFormBoxChatInfoHandler ? classes.openFormBoxChatInfo : ""
-            }`}
+            className={`${classes.secondRight} ${isOpenFormBoxChatInfoHandler ? classes.openFormBoxChatInfo : ""
+              }`}
           >
             <Scrollbars
               // style={{ height: "610px" }}
@@ -663,11 +661,10 @@ const BoxChat = (props) => {
             >
               <div
                 data-id=""
-                className={`${classes.secondRightBoxChatInfo} ${
-                  isOpenFormBoxChatInfoHandler
+                className={`${classes.secondRightBoxChatInfo} ${isOpenFormBoxChatInfoHandler
                     ? classes.openFormBoxChatInfo
                     : ""
-                }`}
+                  }`}
               >
                 <div className={classes.titleBoxChatInfo}>
                   <h2>Thông tin nhóm</h2>
@@ -685,36 +682,36 @@ const BoxChat = (props) => {
                   <div className={classes.listMember}>
                     {/* render lại member khi chuyển nhóm trưởng, rời nhóm, thêm thành viên mới, mời thành viên khác ra khỏi nhóm */}
                     {renderRoomMaster ||
-                    renderMemberOutGroup ||
-                    renderAddMember ||
-                    renderRemoveMember
+                      renderMemberOutGroup ||
+                      renderAddMember ||
+                      renderRemoveMember
                       ? arrayMember.new?.map((user, index) => {
-                          return (
-                            <Member
-                              user={user}
-                              master={roomMaster}
-                              // room={props.onSendRoomToBoxChat}
-                              room={room}
-                              OpenFormRemoveMember={openRemoveMemberHandler} //nhận lệnh mở form remove member từ member
-                              isCloseFormRemoveMember={isOpenFormRemoveMember} // nhận lệnh đóng form remove member từ form remove member
-                              SendUserToBoxChat={ReceiveUserFromMember}
-                              key={user}
-                            />
-                          );
-                        })
+                        return (
+                          <Member
+                            user={user}
+                            master={roomMaster}
+                            // room={props.onSendRoomToBoxChat}
+                            room={room}
+                            OpenFormRemoveMember={openRemoveMemberHandler} //nhận lệnh mở form remove member từ member
+                            isCloseFormRemoveMember={isOpenFormRemoveMember} // nhận lệnh đóng form remove member từ form remove member
+                            SendUserToBoxChat={ReceiveUserFromMember}
+                            key={user}
+                          />
+                        );
+                      })
                       : arrayMember.new?.map((user, index) => {
-                          return (
-                            <Member
-                              user={user}
-                              master={props.onSendRoomToBoxChat.roomMaster}
-                              room={props.onSendRoomToBoxChat}
-                              OpenFormRemoveMember={openRemoveMemberHandler} //nhận lệnh mở form remove member từ member
-                              isCloseFormRemoveMember={isOpenFormRemoveMember} // nhận lệnh đóng form remove member từ form remove member
-                              SendUserToBoxChat={ReceiveUserFromMember}
-                              key={user}
-                            />
-                          );
-                        })}
+                        return (
+                          <Member
+                            user={user}
+                            master={props.onSendRoomToBoxChat.roomMaster}
+                            room={props.onSendRoomToBoxChat}
+                            OpenFormRemoveMember={openRemoveMemberHandler} //nhận lệnh mở form remove member từ member
+                            isCloseFormRemoveMember={isOpenFormRemoveMember} // nhận lệnh đóng form remove member từ form remove member
+                            SendUserToBoxChat={ReceiveUserFromMember}
+                            key={user}
+                          />
+                        );
+                      })}
                   </div>
                 </div>
                 <div className={classes.image_group}>
@@ -728,7 +725,7 @@ const BoxChat = (props) => {
                           onReceiveIsOpenFormViewImage={
                             receiveFormViewImageHandler
                           }
-                          //onReceiveDataImage={receiveDataHandler}
+                        //onReceiveDataImage={receiveDataHandler}
                         />
                       );
                     })}
@@ -765,59 +762,59 @@ const BoxChat = (props) => {
                 <div className={classes.out_deleteGroup}>
                   {renderRoomMaster
                     ? roomMaster === idLogin && (
-                        <Fragment>
-                          <div
-                            className={classes.outgroup}
-                            onClick={outGroupHandler}
-                          >
-                            <i className="fas fa-sign-out-alt"></i>
-                            <p>Rời nhóm</p>
-                          </div>
-                          <div
-                            className={classes.deletegroup}
-                            onClick={deleteGroupHandler}
-                          >
-                            <i className="far fa-trash-alt"></i>
-                            <p>Xóa nhóm</p>
-                          </div>
-                        </Fragment>
-                      )
+                      <Fragment>
+                        <div
+                          className={classes.outgroup}
+                          onClick={outGroupHandler}
+                        >
+                          <i className="fas fa-sign-out-alt"></i>
+                          <p>Rời nhóm</p>
+                        </div>
+                        <div
+                          className={classes.deletegroup}
+                          onClick={deleteGroupHandler}
+                        >
+                          <i className="far fa-trash-alt"></i>
+                          <p>Xóa nhóm</p>
+                        </div>
+                      </Fragment>
+                    )
                     : props.onSendRoomToBoxChat.roomMaster === idLogin && (
-                        <Fragment>
-                          <div
-                            className={classes.outgroup}
-                            onClick={outGroupHandler}
-                          >
-                            <i className="fas fa-sign-out-alt"></i>
-                            <p>Rời nhóm</p>
-                          </div>
-                          <div
-                            className={classes.deletegroup}
-                            onClick={deleteGroupHandler}
-                          >
-                            <i className="far fa-trash-alt"></i>
-                            <p>Xóa nhóm</p>
-                          </div>
-                        </Fragment>
-                      )}
+                      <Fragment>
+                        <div
+                          className={classes.outgroup}
+                          onClick={outGroupHandler}
+                        >
+                          <i className="fas fa-sign-out-alt"></i>
+                          <p>Rời nhóm</p>
+                        </div>
+                        <div
+                          className={classes.deletegroup}
+                          onClick={deleteGroupHandler}
+                        >
+                          <i className="far fa-trash-alt"></i>
+                          <p>Xóa nhóm</p>
+                        </div>
+                      </Fragment>
+                    )}
 
                   {renderRoomMaster
                     ? roomMaster !== idLogin && (
-                        <Fragment>
-                          <div className={classes.outgroup}>
-                            <i className="fas fa-sign-out-alt"></i>
-                            <p onClick={outGroupHandler}>Rời nhóm</p>
-                          </div>
-                        </Fragment>
-                      )
+                      <Fragment>
+                        <div className={classes.outgroup}>
+                          <i className="fas fa-sign-out-alt"></i>
+                          <p onClick={outGroupHandler}>Rời nhóm</p>
+                        </div>
+                      </Fragment>
+                    )
                     : props.onSendRoomToBoxChat.roomMaster !== idLogin && (
-                        <Fragment>
-                          <div className={classes.outgroup}>
-                            <i className="fas fa-sign-out-alt"></i>
-                            <p onClick={outGroupHandler}>Rời nhóm</p>
-                          </div>
-                        </Fragment>
-                      )}
+                      <Fragment>
+                        <div className={classes.outgroup}>
+                          <i className="fas fa-sign-out-alt"></i>
+                          <p onClick={outGroupHandler}>Rời nhóm</p>
+                        </div>
+                      </Fragment>
+                    )}
                 </div>
               </div>
             </Scrollbars>

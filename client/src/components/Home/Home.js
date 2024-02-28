@@ -315,9 +315,9 @@ const Home = (props) => {
 
           {isBtnPhoneBook && (
             // <ListFriend
-            //   onSendSocketToListFriend={socket}
-            //   isListSenderRequest={isListSenderRequestHandler}
-            //   onOpenChat={isChatHandlerFriend}
+            //   onSendSocketToListFriend={socket} 
+            //   isListSenderRequest={isListSenderRequestHandler} 
+            //   onOpenChat={isChatHandlerFriend} 
             //   onSendFromListFriendToHome={onReceiveListFriend} //Để lấy biến true khi tạo nhóm chat
             // />
             <div>List Fen</div>
