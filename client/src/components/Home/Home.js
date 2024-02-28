@@ -30,10 +30,17 @@ import "react-toastify/dist/ReactToastify.css";
 toast.configure();
 
 const Home = (props) => {
-  // const [activeAnswer, setAciveAnswer] = useState(false);
-  // const [activeCalling, setActiveCalling] = useState(false);
-  // const [checkOpenFormCalling, setCheckOpenFormCalling] = useState(false);
-  // const [dataSignal, setDataSignal] = useState(null);
+
+  const [receivingCall, setReceivingCall] = useState(false);
+  const [nameFromCallVideo, setNameFromCallVideo] = useState("");
+  const [nameFromCallVideoSocket, setNameFromCallVideoSocket] = useState("");
+  const [avatarFromCallVideoSocket, setAvatarFromCallVideoSocket] = useState("");
+  const [callAcceptFromVideo, setCallAcceptFromVideo] = useState(false);
+
+  const [activeAnswer, setAciveAnswer] = useState(false);
+  const [activeCalling, setActiveCalling] = useState(false);
+  const [checkOpenFormCalling, setCheckOpenFormCalling] = useState(false);
+  const [dataSignal, setDataSignal] = useState(null);
   const [isWelcome, setIsWelcome] = useState(true);
   const [isBtnMess, setIsBtnMess] = useState(true);
   const [isBtnPhoneBook, setIsBtnPhoneBook] = useState(false);
@@ -44,7 +51,7 @@ const Home = (props) => {
   const [room, setRoom] = useState(null);
   const [isOpenFormLogOut, seIsOpenFormLogOut] = useState(false);
   const [isListSenderRequest, setIsListSenderRequest] = useState(true);
-  // const [isOpenFormCallVideo, setIsOpenFormCallVideo] = useState(""); //Cho form call video
+  const [isOpenFormCallVideo, setIsOpenFormCallVideo] = useState(""); //Cho form call video
   const [avatar, setAvatar] = useState(""); //Lưu tên mess khi nhận từ boxchat để truyền xuống ListMess
   const socket = useRef();
 
@@ -138,6 +145,61 @@ const Home = (props) => {
     setIsListSenderRequest(isListSenderRequest);
   };
 
+
+  //call
+
+  useEffect(() => {
+    socket.current.on("abc", (data) => {
+      setNameFromCallVideoSocket(data.name);
+      setAvatarFromCallVideoSocket(data.avatar);
+      setTimeout(() => {
+        setCheckOpenFormCalling(true);
+      }, 4000);
+    });
+
+    socket.current.on("calling", (data) => {
+      setDataSignal(data);
+    });
+  }, [activeCalling]);
+
+  //call tu boxchat
+  const receiveCallingHandler = ({
+    receivingCall,
+    callAccepted,
+    name,
+    activeCalling,
+  }) => {
+    setReceivingCall(receivingCall);
+    setCallAcceptFromVideo(callAccepted);
+    setNameFromCallVideo(name);
+    setActiveCalling(activeCalling);
+  };
+
+  const ActiveAnswerCall = () => {
+    setAciveAnswer(true);
+    setCheckOpenFormCalling(false);
+  };
+  const formfalseHandlerFromBoxChat = (falseFromForm) => {
+    setAciveAnswer(falseFromForm);
+  };
+  const closeFormCallVideo = (falseFromCallVideo) => {
+    setAciveAnswer(falseFromCallVideo);
+  };
+
+  const cancelHandler = (e) => {
+    e.preventDefault();
+    setIsOpenFormCallVideo("");
+  };
+
+  useEffect(() => {
+    if (checkOpenFormCalling) {
+      setCheckOpenFormCalling(classes.active);
+    } else {
+      setCheckOpenFormCalling("");
+    }
+  }, [checkOpenFormCalling]);
+  // console.log(checkOpenFormCalling);
+
   useEffect(() => {
     socket.current.on("delete-group-by-me", (data) => {
       setIsBtnMess(true);
@@ -213,6 +275,8 @@ const Home = (props) => {
     setCreateGroup(createGroup);
   };
 
+
+
   return (
     <Fragment>
       <div className={classes.wrapper}>
@@ -234,7 +298,7 @@ const Home = (props) => {
             <i className="fas fa-address-book" title="Danh bạ"></i>
           </div>
           <div className={classes.logout} onClick={logOutHandler}>
-          <i class="fa-solid fa-right-from-bracket"></i>            
+            <i class="fa-solid fa-right-from-bracket"></i>
           </div>
         </div>
 
@@ -253,10 +317,10 @@ const Home = (props) => {
             // <ListFriend
             //   onSendSocketToListFriend={socket}
             //   isListSenderRequest={isListSenderRequestHandler}
-            //   onOpenChat={isChatHandlerFriend}c:\Users\Windows\Downloads\ZaloApp\FrontEnd\src\components\Home\ListMess.js
+            //   onOpenChat={isChatHandlerFriend}
             //   onSendFromListFriendToHome={onReceiveListFriend} //Để lấy biến true khi tạo nhóm chat
             // />
-            <div>isBtnPhoneBook</div>
+            <div>List Fen</div>
           )}
         </div>
         <div
@@ -328,7 +392,6 @@ const Home = (props) => {
               onFormFalseFromBoxChat={formfalseHandlerFromBoxChat}
               onSendFromHomeToBoxChat={createGroup}
             />
-            // <div>BoxChat</div>
           )}
 
           {isInviteFriend && isListSenderRequest && (

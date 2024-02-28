@@ -2,16 +2,14 @@ import classes from "./home.module.scss";
 import { useState } from "react";
 import React, { useEffect } from "react";
 import addFriendAPI from "../../api/addFriendAPI";
-import { format } from "timeago.js";
 import { Fragment } from "react";
-import tung from "../../assets/tung.jpg";
 import { FileIcon, defaultStyles } from "react-file-icon";
-import FormViewImage from "./form-video/FormViewImage";
 import moment from "moment";
 import Moment from "react-moment";
 import { useSelector } from "react-redux";
 import messageAPI from "../../api/messageAPI";
-import FormFordWardMessage from "./form-fordwardMessage/FormFordWardMessage";
+// import FormFordWardMessage from "./form-fordwardMessage/FormFordWardMessage";
+// import FormViewImage from "./form-video/FormViewImage";
 
 
 
@@ -331,7 +329,7 @@ const Chat = (props) => {
           </Fragment>
         )}
       </div>
-
+{/* 
       <FormViewImage
         isOpenFormViewImage={isOpenFormViewImage}
         data={props.data}
@@ -349,6 +347,7 @@ const Chat = (props) => {
           onSendNameFileFromChat={dataNameFileForWard}
         />
       }
+      */}
     </Fragment>
   );
 };

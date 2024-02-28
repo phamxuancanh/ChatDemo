@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import classes from "./home.module.scss";
 import { useState, useEffect } from "react";
-import FormViewImage from "./form-video/FormViewImage";
+// import FormViewImage from "./form-video/FormViewImage";
 
 const Image = (props) => {
   const [isOpenFormViewImage, setIsOpenFormViewImage] = useState(false);

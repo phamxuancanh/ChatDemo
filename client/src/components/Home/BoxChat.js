@@ -18,7 +18,7 @@ import axios from "axios";
 import { FileIcon, defaultStyles } from "react-file-icon";
 import { GiphyFetch } from "@giphy/js-fetch-api";
 import { Carousel } from "@giphy/react-components";
-import FormViewImage from "./form-video/FormViewImage";
+// import FormViewImage from "./form-video/FormViewImage";
 import Image from "./Image";
 import { Scrollbars } from "react-custom-scrollbars";
 // import groupAPI from "../../api/groupAPI";
