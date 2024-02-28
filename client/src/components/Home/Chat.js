@@ -120,20 +120,6 @@ const Chat = (props) => {
           props.own ? classes.message_own : ""
         }`}
       >
-        {/* {props.own && props.onSendBoxChatToChat && (
-          <Fragment>
-            <div className={`${classes.container_mess} `}>
-              <div className={classes.message}>
-                <p>{message?.text}</p>
-                <div className={classes.messageBottom}>
-                  <Moment format="HH:mm">{time}</Moment>
-                </div>
-              </div>
-            </div>
-          </Fragment>
-        )} */}
-
-        {/* tin nhắn của bản thân */}
         {props.own && (
           <Fragment>
             <div className={`${classes.container_mess} `}>

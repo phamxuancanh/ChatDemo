@@ -112,10 +112,36 @@ const BoxChat = (props) => {
     }
   };
 
+
+  // const SendMessageHandler = async (e) => {
+  //   e.preventDefault();
+  //   const newMessage = {
+  //     sender: idLogin,
+  //     type: "text",
+  //     text: enteredChat,
+  //     active: true,
+  //     RoomId: props.onSendRoomToBoxChat?._id,
+  //   };
+  //   const fetchAddMessage = async () => {
+  //     try {
+  //       const res = await messageAPI.AddMessage({
+  //         message: newMessage,
+  //       });
+  //       setMessages([...messages, res.data]);
+  //       //console.log(res.data);
+  //       setEnteredChat("");
+  //       setShowEmoji(false);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   fetchAddMessage();
+  // };
+
   // console.log(props.onSendSocketToBoxChat);
 
   // console.log(props.onSendRoomToBoxChat._id); //lấy object room từ bên home gửi qua
-  //console.log(props.onSendUserToBoxChat);
+  // console.log(props.onSendUserToBoxChat);
 
   useEffect(() => {
     const fetchMessage = async () => {
