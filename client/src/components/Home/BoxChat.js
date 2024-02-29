@@ -152,6 +152,8 @@ const BoxChat = (props) => {
   //hiển thị tin nhắn cho người khác nhắn tới
   useEffect(() => {
     props.onSendSocketToBoxChat.current.on("send-message", (data) => {
+      console.log(data.RoomId);
+      console.log(props.onSendRoomToBoxChat?._id);
       if (props.onSendRoomToBoxChat?._id === data.RoomId) {
         setRoomSended(data.RoomId);
         setArrivalMessage({

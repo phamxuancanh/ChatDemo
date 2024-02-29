@@ -23,6 +23,7 @@ const addFriendAPI = {
   },
 
   getUser(userID) {
+    console.log(userID.userID+"api ne`````````````");
     const url = "api/users/" + userID.userID;
     return axiosClient.get(url);
   },

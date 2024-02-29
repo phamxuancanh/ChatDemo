@@ -151,7 +151,7 @@ const ListMess = (props) => {
       fetchMessage();
     });
   }, []);
-
+// console.log(lastMess.sender+"sender ne ~~~~~~~~~~~");
   useEffect(() => {
     const fetchGetUser = async () => {
       try {

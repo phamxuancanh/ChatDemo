@@ -35,17 +35,20 @@ const Chat = (props) => {
   useEffect(() => {
     const fetchGetUser = async () => {
       try {
-        const requestGetUser = await addFriendAPI.getUser({
-          userID: message?.sender,
-        });
-        setUser(requestGetUser.data.users);
+        if (message?.sender) {
+          const requestGetUser = await addFriendAPI.getUser({
+            userID: message.sender,
+          });
+          setUser(requestGetUser.data.users);
+          console.log(requestGetUser.data.users.name + " ket qua");
+        }
       } catch (error) {
         console.log(error);
       }
     };
     fetchGetUser();
   }, [message?.sender]);
-
+  
   // console.log(props.data);
   // console.log(message?.text);
 
@@ -107,7 +110,6 @@ const Chat = (props) => {
     setIsFormFordWardMess(False);
   };
 
-  console.log(message);
   return (
     <Fragment>
       <div

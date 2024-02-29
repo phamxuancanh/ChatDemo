@@ -63,7 +63,6 @@ const Home = (props) => {
   useEffect(() => {
     setAvatar(loggedInUser.avatar);
   }, []);
-  console.log(loggedInUser.name);
   useEffect(() => {
     socket.current = io(ENDPOINT, {
       transports: ["websocket", "polling", "flashsocket"],
